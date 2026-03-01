@@ -26,6 +26,7 @@ export default defineConfig({
         path: "src/content/events",
         format: "md",
         ui: {
+          router: ({ document }) => `/events/${document._sys.filename}`,
           filename: {
             readonly: false,
             slugify: (values) => {
