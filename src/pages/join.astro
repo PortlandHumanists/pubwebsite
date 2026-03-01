@@ -4,7 +4,7 @@ import '../styles/global.css';
 import { JoinVisualEditor } from '../components/JoinVisualEditor';
 import client from '../../tina/__generated__/client';
 
-const tinaResult = await client.queries.join({ relativePath: 'join.json' });
+const tinaResult = await client.queries.joinPage({ relativePath: 'join.json' });
 ---
 
 <BaseLayout title="Join Us - Humanists of Greater Portland">

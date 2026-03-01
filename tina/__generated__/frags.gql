@@ -53,7 +53,7 @@ fragment SettingsParts on Settings {
   }
 }
 
-fragment JoinParts on Join {
+fragment JoinPageParts on JoinPage {
   __typename
   heroHeading
   heroTagline

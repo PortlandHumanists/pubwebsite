@@ -336,7 +336,7 @@ export default defineConfig({
 
       // Join Page
       {
-        name: "join",
+        name: "joinPage",
         label: "Join Page",
         path: "src/content/join",
         format: "json",

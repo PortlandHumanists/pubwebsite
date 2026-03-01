@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTina, tinaField } from 'tinacms/dist/react';
-import type { JoinQuery, JoinQueryVariables } from '../../tina/__generated__/types';
+import type { JoinPageQuery, JoinPageQueryVariables } from '../../tina/__generated__/types';
 
 interface Props {
   query: string;
-  variables: JoinQueryVariables;
-  data: JoinQuery;
+  variables: JoinPageQueryVariables;
+  data: JoinPageQuery;
 }
 
 // Radio values are stable identifiers used by the form script — not CMS-managed
@@ -13,7 +13,7 @@ const TIER_VALUES = ['individual', 'joint', 'limited', 'newsletter'];
 
 export function JoinVisualEditor({ query, variables, data }: Props) {
   const { data: tinaData } = useTina({ query, variables, data });
-  const page = tinaData.join;
+  const page = tinaData.joinPage;
 
   return (
     <>

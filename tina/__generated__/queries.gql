@@ -163,8 +163,8 @@ query settingsConnection($before: String, $after: String, $first: Float, $last: 
   }
 }
 
-query join($relativePath: String!) {
-  join(relativePath: $relativePath) {
+query joinPage($relativePath: String!) {
+  joinPage(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -177,12 +177,12 @@ query join($relativePath: String!) {
       }
       id
     }
-    ...JoinParts
+    ...JoinPageParts
   }
 }
 
-query joinConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: JoinFilter) {
-  joinConnection(
+query joinPageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: JoinPageFilter) {
+  joinPageConnection(
     before: $before
     after: $after
     first: $first
@@ -212,7 +212,7 @@ query joinConnection($before: String, $after: String, $first: Float, $last: Floa
           }
           id
         }
-        ...JoinParts
+        ...JoinPageParts
       }
     }
   }
