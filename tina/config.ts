@@ -142,6 +142,9 @@ export default defineConfig({
         label: "Pages",
         path: "src/content/pages",
         format: "md",
+        ui: {
+          router: ({ document }) => `/${document._sys.filename}`,
+        },
         fields: [
           {
             type: "string",
