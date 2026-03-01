@@ -333,6 +333,74 @@ export default defineConfig({
           },
         ],
       },
+
+      // Homepage content
+      {
+        name: "homepage",
+        label: "Homepage",
+        path: "src/content/homepage",
+        format: "json",
+        ui: {
+          allowedActions: { create: false, delete: false },
+          router: () => "/",
+        },
+        match: { include: "home" },
+        fields: [
+          {
+            type: "string",
+            name: "heroHeading",
+            label: "Hero Heading",
+            required: true,
+          },
+          {
+            type: "string",
+            name: "heroTagline",
+            label: "Hero Tagline",
+            required: true,
+            ui: { component: "textarea" },
+          },
+          {
+            type: "string",
+            name: "humanismHeading",
+            label: "\"What is Humanism?\" Heading",
+          },
+          {
+            type: "string",
+            name: "humanismBody1",
+            label: "Humanism Paragraph 1",
+            ui: { component: "textarea" },
+          },
+          {
+            type: "string",
+            name: "humanismBody2",
+            label: "Humanism Paragraph 2",
+            ui: { component: "textarea" },
+          },
+          {
+            type: "object",
+            name: "features",
+            label: "Feature Cards",
+            list: true,
+            ui: { description: "The three value cards (Science & Reason, Community, Compassion)" },
+            fields: [
+              { type: "string", name: "title", label: "Title", required: true },
+              { type: "string", name: "description", label: "Description", required: true, ui: { component: "textarea" } },
+            ],
+          },
+          {
+            type: "string",
+            name: "ctaHeading",
+            label: "CTA Heading",
+            ui: { description: "The 'Ready to Join' section heading" },
+          },
+          {
+            type: "string",
+            name: "ctaBody",
+            label: "CTA Body",
+            ui: { component: "textarea" },
+          },
+        ],
+      },
     ],
   },
 });

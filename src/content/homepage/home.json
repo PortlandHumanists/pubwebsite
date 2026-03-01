@@ -1,0 +1,23 @@
+{
+  "heroHeading": "Welcome to the Humanists of Greater Portland",
+  "heroTagline": "A community of freethinkers dedicated to human well-being, scientific reason, and ethical living without supernatural beliefs.",
+  "humanismHeading": "What is Humanism?",
+  "humanismBody1": "Humanism is a way of life that guides us to be well and to do good without relying on anything supernatural. It's a progressive philosophy that embraces reason, compassion, and the pursuit of knowledge.",
+  "humanismBody2": "We welcome atheists, agnostics, truth-seekers, and anyone interested in exploring ethical living, critical thinking, and community building based on humanist principles.",
+  "features": [
+    {
+      "title": "Science & Reason",
+      "description": "We value evidence-based thinking and scientific inquiry as paths to understanding our world."
+    },
+    {
+      "title": "Community",
+      "description": "Building meaningful connections and supporting one another in our shared human experience."
+    },
+    {
+      "title": "Compassion",
+      "description": "Promoting ethics, social justice, and care for all people through humanist values."
+    }
+  ],
+  "ctaHeading": "Ready to Join Our Community?",
+  "ctaBody": "Become a member and connect with fellow humanists. Support our programs, scholarship funds, and community outreach initiatives."
+}
