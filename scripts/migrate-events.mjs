@@ -3,7 +3,7 @@ import { join } from 'path';
 
 const ARCHIVE = './hgp-archive/hgp-site/www.portlandhumanists.org/content';
 const OUT = './src/content/events';
-const CUTOFF = '2025-01-01';
+const CUTOFF = '2024-01-01';
 
 let count = 0;
 let skipped = 0;
