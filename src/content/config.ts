@@ -27,7 +27,7 @@ const pages = defineCollection({
     pageLayout: z.enum(['standard', 'about']).default('standard'),
     heroGradient: z.string().optional(),
     parent: z.string().optional(), // For sub-pages: specify parent page slug
-    showInNav: z.boolean().default(true), // Whether to show in navigation
+    showInNav: z.boolean().default(false), // Whether to show in navigation
     navOrder: z.number().default(999), // Order in navigation (lower numbers first)
     contactInfo: z.object({
       email: z.string().optional(),
