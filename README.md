@@ -1,181 +1,129 @@
-# Portland Humanists Website - Proof of Concept
+# Portland Humanists Website
 
-A modern, static website built with Astro, Tailwind CSS, and Decap CMS for the Humanists of Greater Portland.
+The website for the Humanists of Greater Portland, built with Astro, Tailwind CSS, and TinaCMS.
 
-## Features
+## Tech Stack
 
-- 🚀 **Fast & Modern**: Built with Astro for optimal performance
-- 🎨 **Beautiful Design**: Custom Tailwind CSS theme with mobile-first responsive design
-- ✏️ **Easy Content Management**: Decap CMS for non-technical content editing
-- 📅 **Event Management**: Showcase upcoming Sunday programs with details and Zoom links
-- 🎥 **YouTube Integration**: Display past program recordings
-- 💳 **Streamlined Membership**: Modern signup flow with integrated payment
-- 📱 **Mobile Friendly**: Fully responsive design that works on all devices
+- **[Astro](https://astro.build)** — static site generator
+- **[Tailwind CSS](https://tailwindcss.com)** — utility-first CSS
+- **[TinaCMS](https://tina.io)** — visual CMS with Git-backed content
+- **[Netlify](https://netlify.com)** — hosting and CI/CD
 
 ## Project Structure
 
 ```
 /
 ├── public/
-│   ├── admin/           # Decap CMS admin interface
+│   ├── admin/           # TinaCMS admin interface (auto-generated)
 │   └── uploads/         # Media uploads from CMS
+├── scripts/
+│   └── migrate-events.mjs  # One-time migration script from old Drupal archive
 ├── src/
-│   ├── content/         # Content collections
-│   │   ├── events/      # Sunday programs/events
-│   │   ├── pages/       # Static pages
-│   │   └── settings/    # Site settings
-│   ├── layouts/         # Layout components
+│   ├── components/      # Astro and React components
+│   │   ├── Navigation.astro
+│   │   ├── PastEventsGrid.tsx   # Client-side search/filter for past events
+│   │   ├── EventVisualEditor.tsx
+│   │   ├── HomeVisualEditor.tsx
+│   │   ├── JoinVisualEditor.tsx
+│   │   └── PageVisualEditor.tsx
+│   ├── content/         # Markdown/JSON content collections
+│   │   ├── events/      # Sunday programs
+│   │   ├── homepage/    # Homepage singleton
+│   │   ├── join/        # Join page singleton
+│   │   ├── pages/       # Static pages (about, outreach, etc.)
+│   │   └── settings/    # Site settings singleton
+│   ├── layouts/
 │   │   └── BaseLayout.astro
-│   ├── pages/           # Route pages
-│   │   ├── index.astro        # Homepage
-│   │   ├── events.astro       # Events listing
-│   │   ├── recordings.astro   # Past recordings
-│   │   ├── join.astro         # Membership signup
-│   │   └── about.astro        # About page
-│   └── styles/          # Global styles
-└── package.json
+│   └── pages/           # Astro routes
+│       ├── index.astro
+│       ├── events.astro
+│       ├── join.astro
+│       ├── events/[slug].astro
+│       └── [...slug].astro  # Dynamic page renderer
+├── tina/
+│   ├── config.ts        # TinaCMS schema (collections, fields)
+│   └── __generated__/   # Auto-generated types — commit these
+└── astro-tina-directive/ # Custom client:tina Astro directive
 ```
 
-## Getting Started
+## Local Development
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- npm or yarn package manager
+- Node.js 18+
+- A `.env` file (copy from `.env.example` and fill in values)
 
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
+### Setup
 
 ```bash
 npm install
+cp .env.example .env
+# Fill in TINA_PUBLIC_CLIENT_ID, TINA_TOKEN, TINA_SEARCH_TOKEN from app.tina.io
 ```
 
-### Development
-
-Start the dev server:
+### Dev server
 
 ```bash
 npm run dev
 ```
 
-Visit [http://localhost:4321](http://localhost:4321) to see the site.
+Site: [http://localhost:4321](http://localhost:4321)
+TinaCMS admin: [http://localhost:4321/admin](http://localhost:4321/admin)
 
-### Content Management
-
-Access the CMS at [http://localhost:4321/admin](http://localhost:4321/admin)
-
-**Note**: For local development, you'll need to enable local backend mode in the CMS config.
-
-## Deployment to Netlify
-
-### Quick Deploy
-
-1. Push your code to GitHub
-2. Connect your repository to Netlify
-3. Netlify will automatically detect the build settings from `netlify.toml`
-4. Deploy!
-
-### Enable Decap CMS Authentication
-
-After deploying to Netlify:
-
-1. Go to Netlify dashboard → Site settings → Identity
-2. Enable Identity service
-3. Set registration to "Invite only"
-4. Enable Git Gateway under Services
-5. Invite users who should have CMS access
-
-## Key Pages
-
-- **Homepage** (`/`): Hero section, what is humanism, featured upcoming event, recent recordings
-- **Events** (`/events`): List of all Sunday programs (upcoming and past)
-- **Recordings** (`/recordings`): Archive of YouTube recordings
-- **Join** (`/join`): Membership signup form with payment integration
-- **About** (`/about`): Information about the organization
+The dev server auto-indexes content for search on startup.
 
 ## Content Management
 
-### Adding a New Event
+Editors access the CMS at `/admin`. Changes are committed directly to the `main` branch via the TinaCMS GitHub App, triggering an automatic Netlify deploy.
 
-1. Go to `/admin` in your browser
-2. Click "Sunday Programs"
-3. Click "New Sunday Programs"
-4. Fill in the event details:
-   - Title, date, presenter information
-   - Start/end times
-   - Zoom link
-   - Description
-5. Set status to "upcoming" or "past"
-6. After recording, add the YouTube video ID
-7. Save and publish
+### Adding a Sunday Program
 
-### Editing Site Settings
+1. Go to `/admin` → **Sunday Programs** → **New**
+2. Fill in title, date, presenter, times, location, description
+3. Set status to **Upcoming**
+4. Add a Zoom link for the event
+5. After the recording is posted: add the YouTube or Vimeo ID and change status to **Past**
 
-1. Go to `/admin`
-2. Click "Site Settings"
-3. Update contact info, social media links, meeting details
-4. Save changes
+### Managing Pages
 
-## Technology Stack
+Nav structure is driven by frontmatter in `src/content/pages/`:
 
-- **[Astro](https://astro.build)**: Modern static site generator
-- **[Tailwind CSS](https://tailwindcss.com)**: Utility-first CSS framework
-- **[Decap CMS](https://decapcms.org)**: Git-based content management
-- **[Netlify](https://netlify.com)**: Hosting and deployment
+- `showInNav: true` — include in the nav
+- `navOrder: 1` — position (lower = first)
+- `parent: about` — nests the page under a parent dropdown
 
-## Benefits Over Drupal
+## Deployment
 
-### Cost Savings
-- ✅ No $20k upgrade cost
-- ✅ Free hosting on Netlify
-- ✅ No ongoing maintenance costs
-- ✅ No security patches required
+Pushes to `main` deploy automatically via Netlify.
 
-### Performance
-- ✅ Lightning-fast static site
-- ✅ Better SEO with instant page loads
-- ✅ Works perfectly on mobile devices
-- ✅ No database queries = faster response
+**Build command** (in `netlify.toml`):
+```
+tinacms build --skip-cloud-checks && astro build
+```
 
-### Ease of Use
-- ✅ Simple, intuitive CMS interface
-- ✅ Content editing doesn't require technical knowledge
-- ✅ Live preview of changes
-- ✅ Version control built-in with Git
+`--skip-cloud-checks` avoids a build-time schema comparison race condition (Netlify sometimes starts before TinaCloud finishes re-indexing).
 
-### Security
-- ✅ No server-side code = no vulnerabilities
-- ✅ No database to hack
-- ✅ Automatic HTTPS
-- ✅ DDoS protection included
+### Environment Variables (Netlify)
 
-## What You Keep from Drupal
+| Variable | Where to get it |
+|----------|----------------|
+| `TINA_PUBLIC_CLIENT_ID` | app.tina.io → project → Settings → Client ID |
+| `TINA_TOKEN` | app.tina.io → project → Settings → Tokens |
+| `TINA_SEARCH_TOKEN` | app.tina.io → project → Settings → Tokens (search indexer) |
 
-- ✅ Event management and calendar
-- ✅ Content pages (About, etc.)
-- ✅ Member signup and management
-- ✅ YouTube video integration
-- ✅ Contact forms
-- ✅ All your existing content (migrated)
+## TinaCMS Schema Changes
 
-## Future Enhancements
+When modifying `tina/config.ts`:
 
-Possible additions after proof of concept approval:
+1. Make your changes
+2. Run `npm run dev` — this regenerates `tina/tina-lock.json` and `tina/__generated__/`
+3. Commit **all** generated files: `tina/tina-lock.json`, `tina/__generated__/*`, `public/admin/index.html`
+4. Push — TinaCloud re-indexes from `tina-lock.json`
 
-- Calendar integration (Google Calendar, iCal)
-- Newsletter signup with Mailchimp/SendGrid
-- Discussion forum integration
-- Advanced search functionality
-- Member portal with login
-- Donation integration (Stripe/PayPal)
-- Event RSVP system
+> **Do not** use `tinacms build --skip-cloud-checks` to regenerate after schema changes — it updates TypeScript types but does not update `tina-lock.json`.
 
-## Support
+## Key Notes
 
-For questions or issues, contact [your-email@example.com]
-
-## License
-
-© 2025 Humanists of Greater Portland. All rights reserved.
+- **Collection name `joinPage`** (not `join`) — `join` is a SQL reserved word silently rejected by TinaCloud
+- **`client:tina` directive** — custom Astro directive in `astro-tina-directive/`; only hydrates React islands inside the Tina admin iframe, not for regular visitors
+- **Vimeo + YouTube** — past events support both; Vimeo was the primary platform through early 2025
