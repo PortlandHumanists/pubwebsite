@@ -81,6 +81,8 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
               <div className="bg-white rounded-xl p-8 shadow-sm">
                 <h2 className="text-2xl font-bold text-neutral-900 mb-6">Membership Information</h2>
 
+                {/* Step 1: Membership form */}
+                <div id="membershipFormSection">
                 <form id="membershipForm" className="space-y-6">
                   {/* Philosophical Agreement */}
                   <div className="bg-[#f4f7fb] p-6 rounded-lg">
@@ -280,20 +282,32 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                         <span className="text-2xl font-bold text-[#1e3a5f]">$0.00</span>
                       </div>
                     </div>
-                    <button
-                      type="submit"
-                      className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-                    >
-                      Continue to Payment
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                    <p className="text-sm text-neutral-500 text-center mt-4">
+                    {/* PayPal button renders here — injected by inline script after SDK loads */}
+                    <div id="paypal-button-container" className="mb-4" />
+                    <p className="text-sm text-neutral-500 text-center">
                       Secure payment processing powered by PayPal
                     </p>
                   </div>
                 </form>
+                </div>{/* end membershipFormSection */}
+
+                {/* Thank you — hidden until payment complete */}
+                <div id="thankYouSection" style={{ display: 'none' }}>
+                  <div className="text-center py-12">
+                    <svg className="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-2">Welcome to HGP!</h3>
+                    <p className="text-neutral-600 mb-4">Your membership payment was successful. You'll receive a confirmation email shortly.</p>
+                    <p className="text-sm text-neutral-500">
+                      Questions? Email{' '}
+                      <a href="mailto:info@portlandhumanists.org" className="text-[#1e3a5f] underline">
+                        info@portlandhumanists.org
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

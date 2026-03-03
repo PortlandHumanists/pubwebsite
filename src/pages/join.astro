@@ -5,9 +5,27 @@ import { JoinVisualEditor } from '../components/JoinVisualEditor';
 import client from '../../tina/__generated__/client';
 
 const tinaResult = await client.queries.joinPage({ relativePath: 'join.json' });
+const paypalClientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
 ---
 
 <BaseLayout title="Join Us - Humanists of Greater Portland">
+  <!-- Netlify Forms: decoy form for build-time detection -->
+  <form name="membershipForm" netlify hidden>
+    <input name="membershipType" />
+    <input name="membershipAmount" />
+    <input name="agreePhilosophy" />
+    <input name="lifetimeMember" />
+    <input name="firstName" />
+    <input name="lastName" />
+    <input name="email" />
+    <input name="phone" />
+    <input name="address" />
+    <input name="city" />
+    <input name="state" />
+    <input name="zip" />
+    <input name="paypalOrderId" />
+  </form>
+
   <JoinVisualEditor
     query={tinaResult.query}
     variables={tinaResult.variables}
@@ -16,10 +34,17 @@ const tinaResult = await client.queries.joinPage({ relativePath: 'join.json' });
   />
 </BaseLayout>
 
-<script>
+<script define:vars={{ paypalClientId }}>
+  // Load PayPal SDK
+  if (paypalClientId) {
+    const sdkScript = document.createElement('script');
+    sdkScript.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=USD&intent=capture`;
+    document.head.appendChild(sdkScript);
+  }
+
   // Calculate total dynamically
-  const form = document.getElementById('membershipForm') as HTMLFormElement;
-  const membershipAmountInput = document.getElementById('membershipAmount') as HTMLInputElement;
+  const form = document.getElementById('membershipForm');
+  const membershipAmountInput = document.getElementById('membershipAmount');
   const totalAmountDiv = document.getElementById('totalAmount');
 
   function updateTotal() {
@@ -38,7 +63,7 @@ const tinaResult = await client.queries.joinPage({ relativePath: 'join.json' });
   // Update placeholder when membership type changes
   form?.querySelectorAll('input[name="membershipType"]').forEach(input => {
     input.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
+      const target = e.target;
       const type = target.value;
 
       if (membershipAmountInput) {
@@ -67,9 +92,63 @@ const tinaResult = await client.queries.joinPage({ relativePath: 'join.json' });
   // Initial update
   updateTotal();
 
-  // Handle form submission
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert('Form submitted! In production, this would redirect to payment processing.');
-  });
+  // Render PayPal button directly in the form once SDK is ready
+  function renderPayPal() {
+    if (typeof window.paypal === 'undefined') {
+      setTimeout(renderPayPal, 200);
+      return;
+    }
+    window.paypal.Buttons({
+      onClick: (_data, actions) => {
+        // Validate form before opening PayPal checkout
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return actions.reject();
+        }
+        const amount = parseFloat(membershipAmountInput?.value || '0');
+        if (amount <= 0) {
+          membershipAmountInput?.setCustomValidity('Please enter an amount greater than $0.');
+          membershipAmountInput?.reportValidity();
+          return actions.reject();
+        }
+        membershipAmountInput?.setCustomValidity('');
+        return actions.resolve();
+      },
+      createOrder: (_data, actions) => {
+        const amount = parseFloat(membershipAmountInput?.value || '0');
+        return actions.order.create({
+          purchase_units: [{
+            description: 'HGP Membership',
+            amount: { value: amount.toFixed(2) },
+          }],
+        });
+      },
+      onApprove: async (data, actions) => {
+        await actions.order.capture();
+
+        // Snapshot form data and submit to Netlify Forms
+        const formData = new FormData(form);
+        const body = new URLSearchParams({ 'form-name': 'membershipForm', paypalOrderId: data.orderID });
+        for (const [key, val] of formData.entries()) {
+          body.append(key, val.toString());
+        }
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+        });
+
+        // Show thank you
+        const formSection = document.getElementById('membershipFormSection');
+        const thankYouSection = document.getElementById('thankYouSection');
+        if (formSection) formSection.style.display = 'none';
+        if (thankYouSection) thankYouSection.style.display = 'block';
+      },
+      onError: (err) => {
+        console.error('PayPal error', err);
+        alert('Payment failed. Please try again or contact us at info@portlandhumanists.org.');
+      },
+    }).render('#paypal-button-container');
+  }
+  renderPayPal();
 </script>
