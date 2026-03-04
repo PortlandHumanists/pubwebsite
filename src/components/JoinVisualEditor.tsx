@@ -18,7 +18,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1e3a5f] to-[#2a4d7f] text-white py-16">
+      <section className="hgp-cta text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1
             className="text-4xl md:text-5xl font-bold mb-4"
@@ -27,7 +27,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
             {page.heroHeading}
           </h1>
           <p
-            className="text-xl text-[#c8d9ec]"
+            className="text-xl text-[var(--hgp-on-primary)]"
             data-tina-field={tinaField(page, 'heroTagline')}
           >
             {page.heroTagline}
@@ -52,7 +52,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                   {page.benefits?.map((benefit, i) => benefit && (
                     <div key={i} className="flex gap-3">
                       <div className="flex-shrink-0">
-                        <svg className="w-6 h-6 text-[#1e3a5f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-6 h-6 text-[var(--hgp-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
@@ -85,7 +85,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                 <div id="membershipFormSection">
                 <form id="membershipForm" className="space-y-6">
                   {/* Philosophical Agreement */}
-                  <div className="bg-[#f4f7fb] p-6 rounded-lg">
+                  <div className="bg-[var(--hgp-surface-alt)] p-6 rounded-lg">
                     <label className="flex items-start gap-3">
                       <input type="checkbox" name="agreePhilosophy" required className="mt-1" />
                       <div>
@@ -188,7 +188,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                                 </div>
                               </div>
                               <div
-                                className="text-base font-semibold text-[#1e3a5f]"
+                                className="text-base font-semibold text-[var(--hgp-primary)]"
                                 data-tina-field={tinaField(tier, 'priceRange')}
                               >
                                 {tier.priceRange}
@@ -276,10 +276,10 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
 
                   {/* Submit Section */}
                   <div className="pt-6">
-                    <div id="totalAmount" className="bg-[#f4f7fb] rounded-lg p-4 mb-6">
+                    <div id="totalAmount" className="bg-[var(--hgp-surface-alt)] rounded-lg p-4 mb-6">
                       <div className="flex justify-between items-center">
                         <span className="text-neutral-700 font-medium">Total Amount:</span>
-                        <span className="text-2xl font-bold text-[#1e3a5f]">$0.00</span>
+                        <span className="text-2xl font-bold text-[var(--hgp-primary)]">$0.00</span>
                       </div>
                     </div>
                     {/* PayPal button renders here — injected by inline script after SDK loads */}
@@ -301,7 +301,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                     <p className="text-neutral-600 mb-4">Your membership payment was successful. You'll receive a confirmation email shortly.</p>
                     <p className="text-sm text-neutral-500">
                       Questions? Email{' '}
-                      <a href="mailto:info@portlandhumanists.org" className="text-[#1e3a5f] underline">
+                      <a href="mailto:info@portlandhumanists.org" className="text-[var(--hgp-primary)] underline">
                         info@portlandhumanists.org
                       </a>
                     </p>
@@ -328,7 +328,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
             {' '}
             <a
               href={`mailto:${page.membershipEmail}`}
-              className="text-[#1e3a5f] hover:text-[#1e3a5f] font-medium"
+              className="text-[var(--hgp-primary)] hover:text-[var(--hgp-primary)] font-medium"
               data-tina-field={tinaField(page, 'membershipEmail')}
             >
               {page.membershipEmail}

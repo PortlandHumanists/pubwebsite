@@ -25,7 +25,6 @@ fragment PagesParts on Pages {
   parent
   showInNav
   navOrder
-  heroGradient
   body
   contactInfo {
     __typename
@@ -46,6 +45,7 @@ fragment SettingsParts on Settings {
     youtube
     meetup
   }
+  colorTheme
   meetingInfo {
     __typename
     time

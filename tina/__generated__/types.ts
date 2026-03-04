@@ -338,7 +338,6 @@ export type Pages = Node & Document & {
   parent?: Maybe<Scalars['String']['output']>;
   showInNav?: Maybe<Scalars['Boolean']['output']>;
   navOrder?: Maybe<Scalars['Float']['output']>;
-  heroGradient?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   contactInfo?: Maybe<PagesContactInfo>;
   id: Scalars['ID']['output'];
@@ -369,7 +368,6 @@ export type PagesFilter = {
   parent?: InputMaybe<StringFilter>;
   showInNav?: InputMaybe<BooleanFilter>;
   navOrder?: InputMaybe<NumberFilter>;
-  heroGradient?: InputMaybe<StringFilter>;
   body?: InputMaybe<RichTextFilter>;
   contactInfo?: InputMaybe<PagesContactInfoFilter>;
 };
@@ -408,6 +406,7 @@ export type Settings = Node & Document & {
   siteDescription: Scalars['String']['output'];
   contactEmail: Scalars['String']['output'];
   socialMedia?: Maybe<SettingsSocialMedia>;
+  colorTheme?: Maybe<Scalars['String']['output']>;
   meetingInfo?: Maybe<SettingsMeetingInfo>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -432,6 +431,7 @@ export type SettingsFilter = {
   siteDescription?: InputMaybe<StringFilter>;
   contactEmail?: InputMaybe<StringFilter>;
   socialMedia?: InputMaybe<SettingsSocialMediaFilter>;
+  colorTheme?: InputMaybe<StringFilter>;
   meetingInfo?: InputMaybe<SettingsMeetingInfoFilter>;
 };
 
@@ -767,7 +767,6 @@ export type PagesMutation = {
   parent?: InputMaybe<Scalars['String']['input']>;
   showInNav?: InputMaybe<Scalars['Boolean']['input']>;
   navOrder?: InputMaybe<Scalars['Float']['input']>;
-  heroGradient?: InputMaybe<Scalars['String']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
   contactInfo?: InputMaybe<PagesContactInfoMutation>;
 };
@@ -790,6 +789,7 @@ export type SettingsMutation = {
   siteDescription?: InputMaybe<Scalars['String']['input']>;
   contactEmail?: InputMaybe<Scalars['String']['input']>;
   socialMedia?: InputMaybe<SettingsSocialMediaMutation>;
+  colorTheme?: InputMaybe<Scalars['String']['input']>;
   meetingInfo?: InputMaybe<SettingsMeetingInfoMutation>;
 };
 
@@ -855,9 +855,9 @@ export type HomepageMutation = {
 
 export type EventsPartsFragment = { __typename: 'Events', title: string, date: string, presenter: string, presenterTitle?: string | null, startTime: string, endTime: string, location: string, speakerRemote?: boolean | null, zoomLink?: string | null, description: string, image?: string | null, youtubeId?: string | null, vimeoId?: string | null, status: string, body?: any | null };
 
-export type PagesPartsFragment = { __typename: 'Pages', title: string, description: string, pageLayout?: string | null, parent?: string | null, showInNav?: boolean | null, navOrder?: number | null, heroGradient?: string | null, body?: any | null, contactInfo?: { __typename: 'PagesContactInfo', email?: string | null, location?: string | null, address?: string | null } | null };
+export type PagesPartsFragment = { __typename: 'Pages', title: string, description: string, pageLayout?: string | null, parent?: string | null, showInNav?: boolean | null, navOrder?: number | null, body?: any | null, contactInfo?: { __typename: 'PagesContactInfo', email?: string | null, location?: string | null, address?: string | null } | null };
 
-export type SettingsPartsFragment = { __typename: 'Settings', siteTitle: string, siteDescription: string, contactEmail: string, socialMedia?: { __typename: 'SettingsSocialMedia', facebook?: string | null, youtube?: string | null, meetup?: string | null } | null, meetingInfo?: { __typename: 'SettingsMeetingInfo', time?: string | null, locationName?: string | null, locationAddress?: string | null, defaultZoomLink?: string | null } | null };
+export type SettingsPartsFragment = { __typename: 'Settings', siteTitle: string, siteDescription: string, contactEmail: string, colorTheme?: string | null, socialMedia?: { __typename: 'SettingsSocialMedia', facebook?: string | null, youtube?: string | null, meetup?: string | null } | null, meetingInfo?: { __typename: 'SettingsMeetingInfo', time?: string | null, locationName?: string | null, locationAddress?: string | null, defaultZoomLink?: string | null } | null };
 
 export type JoinPagePartsFragment = { __typename: 'JoinPage', heroHeading: string, heroTagline: string, benefitsHeading?: string | null, personalInfoHeading?: string | null, philosophyText?: string | null, membershipNote?: string | null, communicationPrefsHeading?: string | null, questionsHeading?: string | null, questionsBody?: string | null, membershipEmail?: string | null, questionsFootnote?: string | null, benefits?: Array<{ __typename: 'JoinPageBenefits', title: string, description: string } | null> | null, personalFields?: Array<{ __typename: 'JoinPagePersonalFields', label: string, fieldName: string, fieldType?: string | null, required?: boolean | null, placeholder?: string | null } | null> | null, membershipTiers?: Array<{ __typename: 'JoinPageMembershipTiers', tierName: string, tierSubtitle?: string | null, priceRange?: string | null } | null> | null, communicationFields?: Array<{ __typename: 'JoinPageCommunicationFields', label: string, description?: string | null, fieldName: string, defaultChecked?: boolean | null } | null> | null };
 
@@ -887,7 +887,7 @@ export type PagesQueryVariables = Exact<{
 }>;
 
 
-export type PagesQuery = { __typename?: 'Query', pages: { __typename: 'Pages', id: string, title: string, description: string, pageLayout?: string | null, parent?: string | null, showInNav?: boolean | null, navOrder?: number | null, heroGradient?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, contactInfo?: { __typename: 'PagesContactInfo', email?: string | null, location?: string | null, address?: string | null } | null } };
+export type PagesQuery = { __typename?: 'Query', pages: { __typename: 'Pages', id: string, title: string, description: string, pageLayout?: string | null, parent?: string | null, showInNav?: boolean | null, navOrder?: number | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, contactInfo?: { __typename: 'PagesContactInfo', email?: string | null, location?: string | null, address?: string | null } | null } };
 
 export type PagesConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -899,14 +899,14 @@ export type PagesConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PagesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PagesConnectionEdges', cursor: string, node?: { __typename: 'Pages', id: string, title: string, description: string, pageLayout?: string | null, parent?: string | null, showInNav?: boolean | null, navOrder?: number | null, heroGradient?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, contactInfo?: { __typename: 'PagesContactInfo', email?: string | null, location?: string | null, address?: string | null } | null } | null } | null> | null } };
+export type PagesConnectionQuery = { __typename?: 'Query', pagesConnection: { __typename?: 'PagesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PagesConnectionEdges', cursor: string, node?: { __typename: 'Pages', id: string, title: string, description: string, pageLayout?: string | null, parent?: string | null, showInNav?: boolean | null, navOrder?: number | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, contactInfo?: { __typename: 'PagesContactInfo', email?: string | null, location?: string | null, address?: string | null } | null } | null } | null> | null } };
 
 export type SettingsQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type SettingsQuery = { __typename?: 'Query', settings: { __typename: 'Settings', id: string, siteTitle: string, siteDescription: string, contactEmail: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, socialMedia?: { __typename: 'SettingsSocialMedia', facebook?: string | null, youtube?: string | null, meetup?: string | null } | null, meetingInfo?: { __typename: 'SettingsMeetingInfo', time?: string | null, locationName?: string | null, locationAddress?: string | null, defaultZoomLink?: string | null } | null } };
+export type SettingsQuery = { __typename?: 'Query', settings: { __typename: 'Settings', id: string, siteTitle: string, siteDescription: string, contactEmail: string, colorTheme?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, socialMedia?: { __typename: 'SettingsSocialMedia', facebook?: string | null, youtube?: string | null, meetup?: string | null } | null, meetingInfo?: { __typename: 'SettingsMeetingInfo', time?: string | null, locationName?: string | null, locationAddress?: string | null, defaultZoomLink?: string | null } | null } };
 
 export type SettingsConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -918,7 +918,7 @@ export type SettingsConnectionQueryVariables = Exact<{
 }>;
 
 
-export type SettingsConnectionQuery = { __typename?: 'Query', settingsConnection: { __typename?: 'SettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SettingsConnectionEdges', cursor: string, node?: { __typename: 'Settings', id: string, siteTitle: string, siteDescription: string, contactEmail: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, socialMedia?: { __typename: 'SettingsSocialMedia', facebook?: string | null, youtube?: string | null, meetup?: string | null } | null, meetingInfo?: { __typename: 'SettingsMeetingInfo', time?: string | null, locationName?: string | null, locationAddress?: string | null, defaultZoomLink?: string | null } | null } | null } | null> | null } };
+export type SettingsConnectionQuery = { __typename?: 'Query', settingsConnection: { __typename?: 'SettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SettingsConnectionEdges', cursor: string, node?: { __typename: 'Settings', id: string, siteTitle: string, siteDescription: string, contactEmail: string, colorTheme?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, socialMedia?: { __typename: 'SettingsSocialMedia', facebook?: string | null, youtube?: string | null, meetup?: string | null } | null, meetingInfo?: { __typename: 'SettingsMeetingInfo', time?: string | null, locationName?: string | null, locationAddress?: string | null, defaultZoomLink?: string | null } | null } | null } | null> | null } };
 
 export type JoinPageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -987,7 +987,6 @@ export const PagesPartsFragmentDoc = gql`
   parent
   showInNav
   navOrder
-  heroGradient
   body
   contactInfo {
     __typename
@@ -1009,6 +1008,7 @@ export const SettingsPartsFragmentDoc = gql`
     youtube
     meetup
   }
+  colorTheme
   meetingInfo {
     __typename
     time

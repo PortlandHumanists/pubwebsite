@@ -60,15 +60,15 @@ function formatTime(timeString: string): string | null {
 // Icons keyed by feature index — fixed design, text is editable
 const featureIcons = [
   // Science & Reason
-  <svg key="0" className="w-8 h-8 text-[#1e3a5f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg key="0" className="w-8 h-8 text-[var(--hgp-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
   </svg>,
   // Community
-  <svg key="1" className="w-8 h-8 text-[#1e3a5f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg key="1" className="w-8 h-8 text-[var(--hgp-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
   </svg>,
   // Compassion
-  <svg key="2" className="w-8 h-8 text-[#1e3a5f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg key="2" className="w-8 h-8 text-[var(--hgp-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
   </svg>,
 ];
@@ -179,7 +179,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1e3a5f] via-[#2a4d7f] to-[#4a90e2] text-white">
+      <section className="hgp-hero text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
           <div className="max-w-3xl">
             <h1
@@ -189,19 +189,19 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
               {home.heroHeading}
             </h1>
             <p
-              className="text-xl md:text-2xl text-[#c8d9ec] mb-8 leading-relaxed"
+              className="text-xl md:text-2xl text-[var(--hgp-on-primary)] mb-8 leading-relaxed"
               data-tina-field={tinaField(home, 'heroTagline')}
             >
               {home.heroTagline}
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#upcoming-events" className="bg-white text-[#1e3a5f] px-6 py-3 rounded-lg font-semibold hover:bg-[#f4f7fb] transition-colors inline-flex items-center gap-2">
+              <a href="#upcoming-events" className="bg-white text-[var(--hgp-primary)] px-6 py-3 rounded-lg font-semibold hover:bg-[var(--hgp-surface-alt)] transition-colors inline-flex items-center gap-2">
                 See Upcoming Programs
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </a>
-              <a href="/join" className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#1e3a5f] transition-colors">
+              <a href="/join" className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-[var(--hgp-primary)] transition-colors">
                 Join Our Community
               </a>
             </div>
@@ -213,7 +213,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
       <section id="upcoming-events" className="py-16 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-sm font-semibold uppercase tracking-wider text-[#4a90e2] mb-2">Every Sunday · 9:45 AM</p>
+            <p className="text-sm font-semibold uppercase tracking-wider text-[var(--hgp-accent)] mb-2">Every Sunday · 9:45 AM</p>
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">Upcoming Sunday Programs</h2>
             <p className="text-lg text-neutral-600">Free and open to everyone — join us in person or via Zoom</p>
           </div>
@@ -255,7 +255,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                 )}
               </div>
               <div className="md:flex">
-                <div className="md:w-2/5 bg-gradient-to-br from-[#2a4d7f] to-[#4a90e2] p-8 flex flex-col justify-center items-center text-white">
+                <div className="md:w-2/5 hgp-card-grad p-8 flex flex-col justify-center items-center text-white">
                   <div className="text-center">
                     <div className="text-5xl font-bold mb-2">
                       {new Intl.DateTimeFormat('en-US', { month: 'short' }).format(upcomingDate).toUpperCase()}
@@ -268,13 +268,13 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                 </div>
                 <div className="md:w-3/5 p-8">
                   <a href={`/events/${upcomingEvent.slug}`}>
-                    <h3 className="text-2xl font-bold text-neutral-900 mb-4 hover:text-[#1e3a5f] transition-colors">
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-4 hover:text-[var(--hgp-primary)] transition-colors">
                       {upcomingEvent.data.title}
                     </h3>
                   </a>
                   <div className="space-y-3 mb-6">
                     <div className="flex items-start gap-3">
-                      <svg className="w-5 h-5 text-[#1e3a5f] mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-[var(--hgp-primary)] mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                       <div>
@@ -284,7 +284,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                     </div>
                     {formatTime(upcomingEvent.data.startTime) && (
                       <div className="flex items-center gap-3">
-                        <svg className="w-5 h-5 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[var(--hgp-primary)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span className="text-neutral-700">
@@ -293,7 +293,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                       </div>
                     )}
                     <div className="flex items-center gap-3">
-                      <svg className="w-5 h-5 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-[var(--hgp-primary)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
@@ -319,7 +319,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                         Join via Zoom
                       </a>
                     )}
-                    <a href={`/events/${upcomingEvent.slug}`} className="inline-flex items-center gap-2 text-[#1e3a5f] font-semibold">
+                    <a href={`/events/${upcomingEvent.slug}`} className="inline-flex items-center gap-2 text-[var(--hgp-primary)] font-semibold">
                       View Details
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -348,10 +348,10 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                   >
                     {date && (
                       <div className="flex-shrink-0 w-11 text-center pt-0.5">
-                        <div className="text-xs font-bold uppercase text-[#4a90e2] leading-none mb-1">
+                        <div className="text-xs font-bold uppercase text-[var(--hgp-accent)] leading-none mb-1">
                           {new Intl.DateTimeFormat('en-US', { month: 'short' }).format(date)}
                         </div>
-                        <div className="text-2xl font-bold text-[#1e3a5f] leading-none">{date.getDate()}</div>
+                        <div className="text-2xl font-bold text-[var(--hgp-primary)] leading-none">{date.getDate()}</div>
                       </div>
                     )}
                     <div className="min-w-0">
@@ -371,7 +371,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
               {perks.map(perk => (
                 <div key={perk.label} className="flex flex-col items-center gap-2">
-                  <div className="w-10 h-10 bg-[#e8eef5] rounded-full flex items-center justify-center text-[#1e3a5f]">
+                  <div className="w-10 h-10 bg-[var(--hgp-surface)] rounded-full flex items-center justify-center text-[var(--hgp-primary)]">
                     {perk.icon}
                   </div>
                   <div>
@@ -415,7 +415,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                 if (!feature) return null;
                 return (
                   <div key={i} className="text-center p-6">
-                    <div className="w-16 h-16 bg-[#e8eef5] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-[var(--hgp-surface)] rounded-full flex items-center justify-center mx-auto mb-4">
                       {featureIcons[i]}
                     </div>
                     <h3
@@ -447,7 +447,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                 <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">Recent Recordings</h2>
                 <p className="text-lg text-neutral-600">Catch up on programs you may have missed</p>
               </div>
-              <a href="/events" className="text-[#1e3a5f] font-semibold flex items-center gap-2">
+              <a href="/events" className="text-[var(--hgp-primary)] font-semibold flex items-center gap-2">
                 View All
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -476,9 +476,9 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                       </div>
                     </a>
                     <div className="p-6">
-                      {date && <div className="text-sm text-[#1e3a5f] font-semibold mb-2">{formatDate(date)}</div>}
+                      {date && <div className="text-sm text-[var(--hgp-primary)] font-semibold mb-2">{formatDate(date)}</div>}
                       <a href={`/events/${event.slug}`}>
-                        <h3 className="text-xl font-bold text-neutral-900 mb-2 hover:text-[#1e3a5f] transition-colors">
+                        <h3 className="text-xl font-bold text-neutral-900 mb-2 hover:text-[var(--hgp-primary)] transition-colors">
                           {event.data.title}
                         </h3>
                       </a>
@@ -493,7 +493,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
       )}
 
       {/* CTA */}
-      <section className="py-16 bg-gradient-to-br from-[#1e3a5f] to-[#2a4d7f] text-white">
+      <section className="py-16 hgp-cta text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2
             className="text-3xl md:text-4xl font-bold mb-6"
@@ -502,12 +502,12 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
             {home.ctaHeading}
           </h2>
           <p
-            className="text-xl text-[#c8d9ec] mb-8 max-w-2xl mx-auto"
+            className="text-xl text-[var(--hgp-on-primary)] mb-8 max-w-2xl mx-auto"
             data-tina-field={tinaField(home, 'ctaBody')}
           >
             {home.ctaBody}
           </p>
-          <a href="/join" className="inline-block bg-white text-[#1e3a5f] px-8 py-4 rounded-lg font-bold text-lg hover:bg-[#f4f7fb] transition-colors">
+          <a href="/join" className="inline-block bg-white text-[var(--hgp-primary)] px-8 py-4 rounded-lg font-bold text-lg hover:bg-[var(--hgp-surface-alt)] transition-colors">
             Become a Member Today
           </a>
         </div>

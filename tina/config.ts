@@ -225,14 +225,6 @@ export default defineConfig({
             },
           },
           {
-            type: "string",
-            name: "heroGradient",
-            label: "Hero Gradient",
-            ui: {
-              description: "Tailwind CSS classes for the hero background",
-            },
-          },
-          {
             type: "rich-text",
             name: "body",
             label: "Body",
@@ -327,6 +319,21 @@ export default defineConfig({
                 label: "Meetup URL",
               },
             ],
+          },
+          {
+            type: "string",
+            name: "colorTheme",
+            label: "Color Theme",
+            options: [
+              { label: "Navy (Default)", value: "navy" },
+              { label: "Teal", value: "teal" },
+              { label: "Forest Green", value: "forest" },
+              { label: "Slate", value: "slate" },
+              { label: "Burgundy", value: "burgundy" },
+            ],
+            ui: {
+              description: "Site-wide color theme for backgrounds, buttons, and accents",
+            },
           },
           {
             type: "object",

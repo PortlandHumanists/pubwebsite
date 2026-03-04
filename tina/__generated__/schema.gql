@@ -195,7 +195,6 @@ type Pages implements Node & Document {
   parent: String
   showInNav: Boolean
   navOrder: Float
-  heroGradient: String
   body: JSON
   contactInfo: PagesContactInfo
   id: ID!
@@ -226,7 +225,6 @@ input PagesFilter {
   parent: StringFilter
   showInNav: BooleanFilter
   navOrder: NumberFilter
-  heroGradient: StringFilter
   body: RichTextFilter
   contactInfo: PagesContactInfoFilter
 }
@@ -260,6 +258,7 @@ type Settings implements Node & Document {
   siteDescription: String!
   contactEmail: String!
   socialMedia: SettingsSocialMedia
+  colorTheme: String
   meetingInfo: SettingsMeetingInfo
   id: ID!
   _sys: SystemInfo!
@@ -284,6 +283,7 @@ input SettingsFilter {
   siteDescription: StringFilter
   contactEmail: StringFilter
   socialMedia: SettingsSocialMediaFilter
+  colorTheme: StringFilter
   meetingInfo: SettingsMeetingInfoFilter
 }
 
@@ -512,7 +512,6 @@ input PagesMutation {
   parent: String
   showInNav: Boolean
   navOrder: Float
-  heroGradient: String
   body: JSON
   contactInfo: PagesContactInfoMutation
 }
@@ -535,6 +534,7 @@ input SettingsMutation {
   siteDescription: String
   contactEmail: String
   socialMedia: SettingsSocialMediaMutation
+  colorTheme: String
   meetingInfo: SettingsMeetingInfoMutation
 }
 

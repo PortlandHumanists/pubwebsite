@@ -68,11 +68,11 @@ function EventCard({ event }: { event: PastEventItem }) {
       )}
 
       <div className="p-6">
-        <div className="text-sm text-[#1e3a5f] font-semibold mb-2">
+        <div className="text-sm text-[var(--hgp-primary)] font-semibold mb-2">
           {formatDate(event.startTime)}
         </div>
         <a href={`/events/${event.slug}`}>
-          <h3 className="text-xl font-bold text-neutral-900 mb-2 line-clamp-2 hover:text-[#1e3a5f] transition-colors">
+          <h3 className="text-xl font-bold text-neutral-900 mb-2 line-clamp-2 hover:text-[var(--hgp-primary)] transition-colors">
             {event.title}
           </h3>
         </a>
@@ -80,7 +80,7 @@ function EventCard({ event }: { event: PastEventItem }) {
         <div className="flex items-center gap-4">
           <a
             href={`/events/${event.slug}`}
-            className="inline-flex items-center gap-2 text-[#1e3a5f] hover:text-[#1e3a5f] font-medium text-sm"
+            className="inline-flex items-center gap-2 text-[var(--hgp-primary)] hover:text-[var(--hgp-primary)] font-medium text-sm"
           >
             View Details
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +188,7 @@ export default function PastEventsGrid({ events }: { events: PastEventItem[] }) 
             placeholder="Search by title, speaker, or keyword…"
             value={query}
             onChange={e => { setQuery(e.target.value); setPage(0); }}
-            className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-transparent"
+            className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--hgp-primary)] focus:border-transparent"
           />
         </div>
 
@@ -197,7 +197,7 @@ export default function PastEventsGrid({ events }: { events: PastEventItem[] }) 
           <span className="text-sm font-medium text-neutral-500 mr-1">Year:</span>
           <button
             onClick={() => selectYear(null)}
-            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedYear === null ? 'bg-[#1e3a5f] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
+            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedYear === null ? 'bg-[var(--hgp-primary)] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
           >
             All
           </button>
@@ -205,7 +205,7 @@ export default function PastEventsGrid({ events }: { events: PastEventItem[] }) 
             <button
               key={year}
               onClick={() => selectYear(selectedYear === year ? null : year)}
-              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedYear === year ? 'bg-[#1e3a5f] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
+              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedYear === year ? 'bg-[var(--hgp-primary)] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
             >
               {year}
             </button>
@@ -218,7 +218,7 @@ export default function PastEventsGrid({ events }: { events: PastEventItem[] }) 
             <span className="text-sm font-medium text-neutral-500 mr-1">Month:</span>
             <button
               onClick={() => selectMonth(null)}
-              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedMonth === null ? 'bg-[#2a4d7f] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
+              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedMonth === null ? 'bg-[var(--hgp-mid)] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
             >
               All
             </button>
@@ -226,7 +226,7 @@ export default function PastEventsGrid({ events }: { events: PastEventItem[] }) 
               <button
                 key={m}
                 onClick={() => selectMonth(selectedMonth === m ? null : m)}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedMonth === m ? 'bg-[#2a4d7f] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
+                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${selectedMonth === m ? 'bg-[var(--hgp-mid)] text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'}`}
               >
                 {MONTHS[m]}
               </button>
@@ -242,7 +242,7 @@ export default function PastEventsGrid({ events }: { events: PastEventItem[] }) 
             </p>
             <button
               onClick={clearAll}
-              className="text-sm text-[#1e3a5f] hover:underline font-medium"
+              className="text-sm text-[var(--hgp-primary)] hover:underline font-medium"
             >
               Clear filters
             </button>
@@ -253,7 +253,7 @@ export default function PastEventsGrid({ events }: { events: PastEventItem[] }) 
       {/* Grid */}
       {displayed.length === 0 ? (
         <div className="bg-neutral-50 rounded-xl p-12 text-center">
-          <p className="text-neutral-600">No programs match your search. <button onClick={clearAll} className="text-[#1e3a5f] font-medium hover:underline">Clear filters</button></p>
+          <p className="text-neutral-600">No programs match your search. <button onClick={clearAll} className="text-[var(--hgp-primary)] font-medium hover:underline">Clear filters</button></p>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
