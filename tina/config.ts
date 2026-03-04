@@ -113,6 +113,9 @@ export default defineConfig({
             type: "string",
             name: "zoomLink",
             label: "Zoom Link",
+            ui: {
+              description: "Leave blank to use the default Zoom link configured in Collections > Site Settings"
+            },
           },
           {
             type: "string",
