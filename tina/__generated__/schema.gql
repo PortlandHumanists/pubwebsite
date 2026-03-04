@@ -110,7 +110,6 @@ type Events implements Node & Document {
   speakerRemote: Boolean
   zoomLink: String
   description: String!
-  image: String
   youtubeId: String
   vimeoId: String
   body: JSON
@@ -139,13 +138,6 @@ input BooleanFilter {
   exists: Boolean
 }
 
-input ImageFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-  in: [String]
-}
-
 input RichTextFilter {
   startsWith: String
   eq: String
@@ -163,7 +155,6 @@ input EventsFilter {
   speakerRemote: BooleanFilter
   zoomLink: StringFilter
   description: StringFilter
-  image: ImageFilter
   youtubeId: StringFilter
   vimeoId: StringFilter
   body: RichTextFilter
@@ -492,7 +483,6 @@ input EventsMutation {
   speakerRemote: Boolean
   zoomLink: String
   description: String
-  image: String
   youtubeId: String
   vimeoId: String
   body: JSON

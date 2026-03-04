@@ -249,7 +249,6 @@ export type Events = Node & Document & {
   speakerRemote?: Maybe<Scalars['Boolean']['output']>;
   zoomLink?: Maybe<Scalars['String']['output']>;
   description: Scalars['String']['output'];
-  image?: Maybe<Scalars['String']['output']>;
   youtubeId?: Maybe<Scalars['String']['output']>;
   vimeoId?: Maybe<Scalars['String']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
@@ -278,13 +277,6 @@ export type BooleanFilter = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type ImageFilter = {
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-  eq?: InputMaybe<Scalars['String']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
 export type RichTextFilter = {
   startsWith?: InputMaybe<Scalars['String']['input']>;
   eq?: InputMaybe<Scalars['String']['input']>;
@@ -302,7 +294,6 @@ export type EventsFilter = {
   speakerRemote?: InputMaybe<BooleanFilter>;
   zoomLink?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
-  image?: InputMaybe<ImageFilter>;
   youtubeId?: InputMaybe<StringFilter>;
   vimeoId?: InputMaybe<StringFilter>;
   body?: InputMaybe<RichTextFilter>;
@@ -747,7 +738,6 @@ export type EventsMutation = {
   speakerRemote?: InputMaybe<Scalars['Boolean']['input']>;
   zoomLink?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   youtubeId?: InputMaybe<Scalars['String']['input']>;
   vimeoId?: InputMaybe<Scalars['String']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
@@ -853,7 +843,7 @@ export type HomepageMutation = {
   ctaBody?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type EventsPartsFragment = { __typename: 'Events', title: string, date: string, presenter: string, presenterTitle?: string | null, startTime: string, endTime: string, location: string, speakerRemote?: boolean | null, zoomLink?: string | null, description: string, image?: string | null, youtubeId?: string | null, vimeoId?: string | null, body?: any | null };
+export type EventsPartsFragment = { __typename: 'Events', title: string, date: string, presenter: string, presenterTitle?: string | null, startTime: string, endTime: string, location: string, speakerRemote?: boolean | null, zoomLink?: string | null, description: string, youtubeId?: string | null, vimeoId?: string | null, body?: any | null };
 
 export type PagesPartsFragment = { __typename: 'Pages', title: string, description: string, pageLayout?: string | null, parent?: string | null, showInNav?: boolean | null, navOrder?: number | null, body?: any | null, contactInfo?: { __typename: 'PagesContactInfo', email?: string | null, location?: string | null, address?: string | null } | null };
 
@@ -868,7 +858,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: { __typename: 'Events', id: string, title: string, date: string, presenter: string, presenterTitle?: string | null, startTime: string, endTime: string, location: string, speakerRemote?: boolean | null, zoomLink?: string | null, description: string, image?: string | null, youtubeId?: string | null, vimeoId?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type EventsQuery = { __typename?: 'Query', events: { __typename: 'Events', id: string, title: string, date: string, presenter: string, presenterTitle?: string | null, startTime: string, endTime: string, location: string, speakerRemote?: boolean | null, zoomLink?: string | null, description: string, youtubeId?: string | null, vimeoId?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type EventsConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -880,7 +870,7 @@ export type EventsConnectionQueryVariables = Exact<{
 }>;
 
 
-export type EventsConnectionQuery = { __typename?: 'Query', eventsConnection: { __typename?: 'EventsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'EventsConnectionEdges', cursor: string, node?: { __typename: 'Events', id: string, title: string, date: string, presenter: string, presenterTitle?: string | null, startTime: string, endTime: string, location: string, speakerRemote?: boolean | null, zoomLink?: string | null, description: string, image?: string | null, youtubeId?: string | null, vimeoId?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type EventsConnectionQuery = { __typename?: 'Query', eventsConnection: { __typename?: 'EventsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'EventsConnectionEdges', cursor: string, node?: { __typename: 'Events', id: string, title: string, date: string, presenter: string, presenterTitle?: string | null, startTime: string, endTime: string, location: string, speakerRemote?: boolean | null, zoomLink?: string | null, description: string, youtubeId?: string | null, vimeoId?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type PagesQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -971,7 +961,6 @@ export const EventsPartsFragmentDoc = gql`
   speakerRemote
   zoomLink
   description
-  image
   youtubeId
   vimeoId
   body

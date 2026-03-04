@@ -13,7 +13,6 @@ const events = defineCollection({
     speakerRemote: z.boolean().optional().default(false),
     zoomLink: z.string().optional(),
     description: z.string(),
-    image: z.string().optional(),
     youtubeId: z.string().optional(),
     vimeoId: z.string().optional(),
     status: z.enum(['upcoming', 'past']).optional(), // deprecated: filtering is now endTime-based

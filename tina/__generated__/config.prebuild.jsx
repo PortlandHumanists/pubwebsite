@@ -115,11 +115,6 @@ var config_default = defineConfig({
             }
           },
           {
-            type: "image",
-            name: "image",
-            label: "Featured Image"
-          },
-          {
             type: "string",
             name: "youtubeId",
             label: "YouTube Video ID",

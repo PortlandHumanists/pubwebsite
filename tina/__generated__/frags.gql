@@ -10,7 +10,6 @@ fragment EventsParts on Events {
   speakerRemote
   zoomLink
   description
-  image
   youtubeId
   vimeoId
   body
