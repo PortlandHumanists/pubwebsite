@@ -38,7 +38,17 @@ const pages = defineCollection({
   }),
 });
 
+const docs = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    order: z.number().default(999),
+  }),
+});
+
 export const collections = {
   events,
   pages,
+  docs,
 };

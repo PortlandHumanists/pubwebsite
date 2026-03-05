@@ -1,0 +1,152 @@
+---
+import Navigation from '../components/Navigation.astro';
+import { getCollection } from 'astro:content';
+import '../styles/global.css';
+import client from '../../tina/__generated__/client';
+
+interface Props {
+  title: string;
+  currentSlug: string;
+}
+
+const { title, currentSlug } = Astro.props;
+
+const settingsResult = await client.queries.settings({ relativePath: 'general.json' });
+const settings = settingsResult.data.settings;
+const contactEmail = settings.contactEmail ?? 'info@portlandhumanists.org';
+const colorTheme = (settings as any).colorTheme ?? 'navy';
+const customBaseColor = (settings as any).customBaseColor ?? '';
+
+const allDocs = await getCollection('docs');
+const navDocs = allDocs.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const currentIndex = navDocs.findIndex(d => d.slug === currentSlug);
+const prevDoc = currentIndex > 0 ? navDocs[currentIndex - 1] : null;
+const nextDoc = currentIndex < navDocs.length - 1 ? navDocs[currentIndex + 1] : null;
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme={colorTheme} style={customBaseColor ? `--hgp-base: ${customBaseColor}` : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} — Site Setup Guide</title>
+    <script is:inline>
+      (function () {
+        var stored = sessionStorage.getItem('hgp-preview-theme');
+        if (stored) document.documentElement.setAttribute('data-theme', stored);
+        var base = sessionStorage.getItem('hgp-preview-base');
+        if (base) document.documentElement.style.setProperty('--hgp-base', base);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-white text-neutral-900">
+    <header class="bg-white border-b border-neutral-200 sticky top-0 z-[9999]">
+      <Navigation />
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex gap-8 py-10">
+
+        <!-- Sidebar -->
+        <aside class="hidden md:block w-64 flex-shrink-0">
+          <div class="sticky top-28">
+            <p class="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-3 px-3">Setup Guide</p>
+            <nav>
+              {navDocs.map(doc => (
+                <a
+                  href={`/docs/${doc.slug}`}
+                  class={`block px-3 py-2 rounded-lg text-sm font-medium mb-1 transition-colors ${
+                    doc.slug === currentSlug
+                      ? 'bg-[var(--hgp-surface)] text-[var(--hgp-primary)] font-semibold'
+                      : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
+                  }`}
+                >
+                  {doc.data.title}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Mobile nav (horizontal scroll) -->
+        <div class="md:hidden w-full mb-6 -mx-4 px-4">
+          <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {navDocs.map(doc => (
+              <a
+                href={`/docs/${doc.slug}`}
+                class={`flex-shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  doc.slug === currentSlug
+                    ? 'bg-[var(--hgp-primary)] text-white'
+                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                }`}
+              >
+                {doc.data.title}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- Main content -->
+        <main class="flex-1 min-w-0">
+          <h1 class="text-3xl font-bold text-neutral-900 mb-2">{title}</h1>
+          <hr class="border-neutral-200 mb-8" />
+
+          <div class="prose prose-lg max-w-none
+            prose-headings:font-bold prose-headings:text-neutral-900
+            prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-3
+            prose-a:text-[var(--hgp-primary)] prose-a:no-underline hover:prose-a:underline
+            prose-code:bg-neutral-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:text-neutral-800 prose-code:before:content-none prose-code:after:content-none
+            prose-pre:bg-neutral-900 prose-pre:text-neutral-100 prose-pre:rounded-xl
+            prose-blockquote:border-[var(--hgp-primary)] prose-blockquote:bg-[var(--hgp-surface-alt)] prose-blockquote:rounded-r-lg prose-blockquote:py-0.5
+            prose-strong:text-neutral-900
+            prose-li:my-1
+          ">
+            <slot />
+          </div>
+
+          <!-- Prev / Next navigation -->
+          {(prevDoc || nextDoc) && (
+            <div class="mt-12 pt-8 border-t border-neutral-200 flex items-center justify-between gap-4">
+              {prevDoc ? (
+                <a href={`/docs/${prevDoc.slug}`} class="group flex items-center gap-3 text-neutral-600 hover:text-[var(--hgp-primary)] transition-colors">
+                  <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  <span>
+                    <span class="block text-xs text-neutral-400 mb-0.5">Previous</span>
+                    <span class="font-medium">{prevDoc.data.title}</span>
+                  </span>
+                </a>
+              ) : <div />}
+
+              {nextDoc ? (
+                <a href={`/docs/${nextDoc.slug}`} class="group flex items-center gap-3 text-neutral-600 hover:text-[var(--hgp-primary)] transition-colors text-right ml-auto">
+                  <span>
+                    <span class="block text-xs text-neutral-400 mb-0.5">Next</span>
+                    <span class="font-medium">{nextDoc.data.title}</span>
+                  </span>
+                  <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              ) : <div />}
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
+
+    <footer class="bg-neutral-900 text-neutral-300 mt-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-center text-neutral-400">
+        <p>&copy; {new Date().getFullYear()} Humanists of Greater Portland &mdash;
+          <a href={`mailto:${contactEmail}`} class="hover:text-white transition-colors">{contactEmail}</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
