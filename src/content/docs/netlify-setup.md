@@ -75,18 +75,25 @@ You need to add four variables. You'll get the Tina values in the [next section]
 
 > **Sandbox vs. Live:** Sandbox uses fake money for testing. The live site needs the **Live** Client ID so real payments go through.
 
-## Step 5: Enable Forms
-
-Your site has a member signup form on the Join page that submits through Netlify. Form detection happens during the build, so you need to enable it **before** deploying.
-
-1. Go to **Site configuration** → **Forms**
-2. Confirm that form detection is **enabled**
-
-After your first deploy, any form submissions will appear under **Forms** in the main Netlify navigation. Your Starter plan includes 100 form submissions per month — more than enough for a membership signup form.
-
-## Step 6: Deploy the Site
+## Step 5: Deploy the Site
 
 Now you're ready. Click **Deploy site**. Netlify will start building your site. This takes about 60–90 seconds.
+
+## Step 6: Enable Forms
+
+Your site has a member signup form on the Join page that submits through Netlify. The Forms option only appears in Netlify after your site has been created, so this step comes after the initial deploy.
+
+1. From the Netlify dashboard, click into your site if you're not already on the project page
+2. In the left sidebar, click **Forms**
+3. Enable form detection if it isn't already on
+
+Then trigger a manual redeploy so Netlify picks up the form:
+
+1. Click **Deploys** in the sidebar
+2. Click **Trigger deploy** → **Deploy site**
+3. Wait for the build to finish (~60–90 seconds)
+
+After this, any form submissions will appear under **Forms** in the Netlify sidebar. Your Starter plan includes 100 form submissions per month — more than enough for a membership signup form.
 
 ## Step 7: Analytics (optional)
 

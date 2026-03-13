@@ -28,7 +28,7 @@ Tina will spend a moment indexing your content. When it's done, you'll see your 
 
 ## Step 3: Get Your Tokens
 
-Tina uses a client ID and two tokens to connect your site to Tina Cloud. You'll add all three to Netlify.
+Tina uses a client ID and two tokens to connect your site to Tina Cloud. You'll add all three to Netlify in the next section.
 
 On your Tina project page:
 
@@ -36,35 +36,13 @@ On your Tina project page:
 2. Click **Settings → Tokens** and copy both:
    - **Content Token** — this is your `TINA_TOKEN`
    - **Search Token** — this is your `TINA_SEARCH_TOKEN`
-3. Paste all three somewhere safe (a text file, email draft) — you'll need them in the next step
+3. Save all three somewhere handy (a text file or email draft) — you'll paste them into Netlify shortly
 
 > **Keep the tokens private.** The Client ID is safe to share, but the tokens give read access to your content.
 
-## Step 4: Add Tokens to Netlify
+## Step 4: Test the CMS
 
-Now go back to Netlify and add those tokens:
-
-1. Go to your site in Netlify
-2. Click **Site configuration** → **Environment variables**
-3. Click **Add a variable**
-4. Enter:
-   - **Key:** `TINA_TOKEN`
-   - **Value:** *(paste the Content Token you copied)*
-5. Click **Create variable**
-6. Repeat for the second token:
-   - **Key:** `TINA_SEARCH_TOKEN`
-   - **Value:** *(paste the Search Token you copied)*
-
-## Step 5: Redeploy the Site
-
-Now that the tokens are in place, trigger a new deploy:
-
-1. In Netlify, go to **Deploys**
-2. Click **Trigger deploy** → **Deploy site**
-3. Wait about 60–90 seconds for the build to finish
-4. The deploy log should end with **"Published"** — no errors
-
-## Step 6: Test the CMS
+Once the Netlify deploy is complete (next section), you can verify the CMS is working:
 
 1. Go to your site URL (e.g., `https://your-site.netlify.app`)
 2. Add `/admin` to the end: `https://your-site.netlify.app/admin`
