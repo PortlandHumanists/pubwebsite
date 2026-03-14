@@ -5,10 +5,10 @@
   "socialMedia": {
     "facebook": "https://facebook.com/portlandhumanists",
     "youtube": "https://youtube.com/@portlandhumanists",
-    "meetup": "https://meetup.com/portland-humanists"
+    "meetup": "https://meetup.com/humanists-of-greater-portland"
   },
-  "timezone": "America/Los_Angeles",
   "colorTheme": "navy",
+  "timezone": "America/Los_Angeles",
   "meetingInfo": {
     "time": "10:00 AM - 12:00 PM PST",
     "locationName": "Friendly House",
