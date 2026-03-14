@@ -40,7 +40,16 @@ On your Tina project page:
 
 > **Keep the tokens private.** The Client ID is safe to share, but the tokens give read access to your content.
 
-## Step 4: Test the CMS
+## Step 4: Add Your Site URL to Tina Cloud
+
+Tina Cloud only allows the CMS to load on domains you've explicitly authorized. You need to add your Netlify URL before the admin panel will work.
+
+1. In your Tina project, click **Settings → Configuration**
+2. Find the **Site URLs** field and add your Netlify URL (e.g., `https://your-site.netlify.app`)
+3. If you later connect a custom domain (e.g., `https://portlandhumanists.org`), add that here too
+4. Click **Save**
+
+## Step 5: Test the CMS
 
 Once the Netlify deploy is complete (next section), you can verify the CMS is working:
 
@@ -54,6 +63,10 @@ If you see your content in the sidebar (Events, Pages, Settings, etc.), everythi
 ---
 
 ## Troubleshooting
+
+**I get a Tina Cloud error about a missing domain**
+
+You need to add your site URL to Tina Cloud's allowed list. Go to your Tina project → **Settings → Configuration** → **Site URLs** and add your full site URL (e.g., `https://your-site.netlify.app`). See Step 4 above.
 
 **The deploy is still failing after adding tokens**
 
