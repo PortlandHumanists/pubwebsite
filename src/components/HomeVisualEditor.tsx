@@ -26,6 +26,7 @@ interface Props {
   upcomingEvents: EventItem[];
   recentRecordings: EventItem[];
   defaultZoomLink?: string;
+  timezone?: string;
 }
 
 function parseTime(startTime: string): Date | null {
@@ -54,6 +55,17 @@ function formatTime(timeString: string): string | null {
     return `${hour % 12 || 12}:${minutes} ${ampm}`;
   } catch {
     return null;
+  }
+}
+
+function timezoneAbbr(timeString: string, tz: string): string {
+  try {
+    const [d, t] = timeString.split(' ');
+    return new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' })
+      .formatToParts(new Date(`${d}T${t}:00`))
+      .find(p => p.type === 'timeZoneName')?.value ?? '';
+  } catch {
+    return '';
   }
 }
 
@@ -168,7 +180,7 @@ const perks = [
   },
 ];
 
-export function HomeVisualEditor({ query, variables, data, upcomingEvents, recentRecordings, defaultZoomLink = '' }: Props) {
+export function HomeVisualEditor({ query, variables, data, upcomingEvents, recentRecordings, defaultZoomLink = '', timezone }: Props) {
   const { data: tinaData } = useTina({ query, variables, data });
   const home = tinaData.homepage;
 
@@ -288,7 +300,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span className="text-neutral-700">
-                          {formatTime(upcomingEvent.data.startTime)} - {formatTime(upcomingEvent.data.endTime)}
+                          {formatTime(upcomingEvent.data.startTime)} - {formatTime(upcomingEvent.data.endTime)}{timezone && upcomingEvent.data.endTime ? ` ${timezoneAbbr(upcomingEvent.data.endTime, timezone)}` : ''}
                         </span>
                       </div>
                     )}

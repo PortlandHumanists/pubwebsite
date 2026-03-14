@@ -28,6 +28,13 @@ function formatTime(timeString: string): string {
   return `${displayHour}:${minutes} ${ampm}`;
 }
 
+function timezoneAbbr(timeString: string, tz: string): string {
+  const [d, t] = timeString.split(' ');
+  return new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' })
+    .formatToParts(new Date(`${d}T${t}:00`))
+    .find(p => p.type === 'timeZoneName')?.value ?? '';
+}
+
 async function fetchVimeoThumbnail(vimeoId: string): Promise<string | undefined> {
   try {
     const res = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vimeoId}`);
@@ -114,7 +121,7 @@ const pastEventItems = await Promise.all(pastEvents.map(async event => ({
                       <svg class="w-5 h-5 text-[var(--hgp-primary)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span>{formatTime(event.data.startTime)} - {formatTime(event.data.endTime)}</span>
+                      <span>{formatTime(event.data.startTime)} - {formatTime(event.data.endTime)} {timezoneAbbr(event.data.endTime, timezone)}</span>
                     </div>
 
                     <div class="flex items-center gap-3 text-neutral-700">

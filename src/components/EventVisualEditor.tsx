@@ -9,6 +9,7 @@ interface Props {
   variables: EventsQueryVariables;
   data: EventsQuery;
   defaultZoomLink?: string;
+  timezone?: string;
 }
 
 const MAPS_URL = 'https://maps.google.com/?q=Friendly+House+Community+Center+1737+NW+26th+Ave+Portland+OR+97210';
@@ -82,7 +83,18 @@ function formatTime(timeString: string): string | null {
   }
 }
 
-export function EventVisualEditor({ query, variables, data, defaultZoomLink = '' }: Props) {
+function timezoneAbbr(timeString: string, tz: string): string {
+  try {
+    const [d, t] = timeString.split(' ');
+    return new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' })
+      .formatToParts(new Date(`${d}T${t}:00`))
+      .find(p => p.type === 'timeZoneName')?.value ?? '';
+  } catch {
+    return '';
+  }
+}
+
+export function EventVisualEditor({ query, variables, data, defaultZoomLink = '', timezone }: Props) {
   const { data: tinaData } = useTina({ query, variables, data });
   const event = tinaData.events;
 
@@ -143,7 +155,7 @@ export function EventVisualEditor({ query, variables, data, defaultZoomLink = ''
                         <span className="font-medium">Time</span>
                       </div>
                       <p className="text-neutral-900 ml-7" data-tina-field={tinaField(event, 'startTime')}>
-                        {formatTime(event.startTime)} - {formatTime(event.endTime)}
+                        {formatTime(event.startTime)} - {formatTime(event.endTime)}{timezone && event.endTime ? ` ${timezoneAbbr(event.endTime, timezone)}` : ''}
                       </p>
                     </div>
                   )}

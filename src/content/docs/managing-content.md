@@ -29,7 +29,7 @@ That will open the editing panel allowing you to update the content on the page:
 ## Adding a New Sunday Program
 
 1. Go to **`portlandhumanists.org/admin`** and sign in
-2. Click **Events** in the left panel
+2. Click **Sunday Programs** in the left panel
 3. Click **Create new** (or the **+** button)
 3. Fill in the fields:
 
@@ -37,8 +37,8 @@ That will open the editing panel allowing you to update the content on the page:
 |-------|--------------|
 | **Title** | The talk title, e.g., "Science and Morality" |
 | **Date** | The date of the event |
-| **Start Time** | e.g., `10:30 AM` |
-| **End Time** | e.g., `12:00 PM` — this is important (see note below) |
+| **Start Time** | Date and time in the format `YYYY-MM-DD HH:mm`, e.g., `2026-04-06 10:00` |
+| **End Time** | Same format, e.g., `2026-04-06 12:00` — this is important (see note below) |
 | **Presenter** | Speaker's full name |
 | **Presenter Title** | Their title or affiliation (optional) |
 | **Location** | e.g., `Multnomah Arts Center, Room 30` |
@@ -58,7 +58,7 @@ Check **Speaker Remote** and paste the Zoom link in the **Zoom Link** field. A "
 
 Once a recording is posted to YouTube or Vimeo, you can add it to the event so it appears on the Past Programs page.
 
-1. Go to **Events** → find the event
+1. Go to **Sunday Programs** → find the event
 2. Scroll down to the video fields:
    - **YouTube ID** — the part after `?v=` in the YouTube URL
      - Example: `https://youtube.com/watch?v=dQw4w9WgXcQ` → ID is `dQw4w9WgXcQ`
@@ -130,7 +130,7 @@ This will trigger a rebuild once a week, keeping upcoming/past labels accurate e
 | Task | How |
 |------|-----|
 | Edit an existing page or event | portlandhumanists.org/admin → navigate to it in the preview → edit in the left panel |
-| Add a new event | portlandhumanists.org/admin → Events → Create new |
+| Add a new event | portlandhumanists.org/admin → Sunday Programs → Create new |
 | Add a recording to a past event | portlandhumanists.org/admin → navigate to the event → YouTube ID or Vimeo ID |
 | Change contact email | portlandhumanists.org/admin → Settings → General |
 | Change site color | portlandhumanists.org/admin → Settings → General → Color Theme |
