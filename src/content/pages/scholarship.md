@@ -1,11 +1,11 @@
 ---
-title: Annual Scholarship Contest
+heroGradient: 'bg-gradient-to-br from-[#1e3a5f] to-[#2a4d7f]'
+title: Del Allen Annual Scholarship Contest
 description: The HGP Del Allen Memorial Scholarship supports students who exemplify humanist values through academic achievement and community engagement.
 pageLayout: standard
+parent: outreach
 showInNav: true
 navOrder: 1
-parent: outreach
-heroGradient: "bg-gradient-to-br from-[#1e3a5f] to-[#2a4d7f]"
 ---
 
 The Humanists of Greater Portland awards an annual scholarship to recognize students who exemplify humanist values through academic achievement and involvement in their community.
