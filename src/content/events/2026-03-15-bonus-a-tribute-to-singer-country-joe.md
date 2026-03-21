@@ -1,6 +1,6 @@
 ---
 title: 'Bonus: A tribute to singer “Country Joe”'
-date: 2026-03-15T17:00:00.000Z
+date: 2026-03-20T17:00:00.000Z
 presenter: Anne Henderson
 presenterTitle: President of Humanists of Greater Portland
 startTime: '2026-03-15 09:45'
