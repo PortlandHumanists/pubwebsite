@@ -356,7 +356,7 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
                   <a
                     key={event.slug}
                     href={`/events/${event.slug}`}
-                    className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex gap-4 items-start"
+                    className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow flex gap-4 items-start min-w-0"
                   >
                     {date && (
                       <div className="flex-shrink-0 w-11 text-center pt-0.5">
