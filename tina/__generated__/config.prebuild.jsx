@@ -31,7 +31,10 @@ var config_default = defineConfig({
         path: "src/content/events",
         format: "md",
         ui: {
-          router: ({ document }) => document._sys.filename ? `/events/${document._sys.filename}` : void 0,
+          router: ({ document }) => {
+            const path = document._sys.relativePath?.replace(/\.md$/, "");
+            return path ? `/events/${path}` : void 0;
+          },
           filename: {
             readonly: false,
             slugify: (values) => {

@@ -1,9 +1,11 @@
-import { readFileSync, writeFileSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
 const ARCHIVE = './hgp-archive/hgp-site/www.portlandhumanists.org/content';
 const OUT = './src/content/events';
-const CUTOFF = '2024-01-01';
+// Events before this date go into year subfolders (e.g. 2023/2023-03-05-title.md)
+// Events on or after go flat (already on the site — skip them)
+const FOLDER_CUTOFF = '2024-01-01';
 
 let count = 0;
 let skipped = 0;
@@ -17,7 +19,8 @@ for (const file of readdirSync(ARCHIVE).filter(f => f.endsWith('.html'))) {
   if (!fieldDateSection) { console.warn(`  SKIP (no date): ${file}`); skipped++; continue; }
   const isoDate = fieldDateSection[1];
   const dateOnly = isoDate.slice(0, 10);
-  if (dateOnly < CUTOFF) { skipped++; continue; }
+  // Skip 2024+ — those events are already on the site
+  if (dateOnly >= FOLDER_CUTOFF) { skipped++; continue; }
 
   // Title from h1.page-title or <title> tag
   const titleMatch = html.match(/<h1[^>]*class="[^"]*page-title[^"]*"[^>]*>([^<]+)</)
@@ -48,7 +51,10 @@ for (const file of readdirSync(ARCHIVE).filter(f => f.endsWith('.html'))) {
 
   // Slug matching Tina's slugify formula
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const year = dateOnly.slice(0, 4);
   const filename = `${dateOnly}-${slug}.md`;
+  const outDir = join(OUT, year);
+  mkdirSync(outDir, { recursive: true });
 
   // Escape a string for use in YAML quoted value
   const esc = str => str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, ' ').replace(/\r/g, '');
@@ -71,8 +77,8 @@ for (const file of readdirSync(ARCHIVE).filter(f => f.endsWith('.html'))) {
     allParas,
   ].filter(l => l !== null).join('\n');
 
-  writeFileSync(join(OUT, filename), lines);
-  console.log(`✓ ${filename}`);
+  writeFileSync(join(outDir, filename), lines);
+  console.log(`✓ ${year}/${filename}`);
   count++;
 }
 
