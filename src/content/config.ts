@@ -4,7 +4,7 @@ const events = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.date(),
+    date: z.coerce.date(),
     presenter: z.string(),
     presenterTitle: z.string().optional().default(''),
     startTime: z.string(),
