@@ -229,10 +229,9 @@ type PagesConnection implements Connection {
   edges: [PagesConnectionEdges]
 }
 
-type SettingsSocialMedia {
-  facebook: String
-  youtube: String
-  meetup: String
+type SettingsSocialLinks {
+  label: String!
+  url: String!
 }
 
 type SettingsMeetingInfo {
@@ -246,7 +245,7 @@ type Settings implements Node & Document {
   siteTitle: String!
   siteDescription: String!
   contactEmail: String!
-  socialMedia: SettingsSocialMedia
+  socialLinks: [SettingsSocialLinks]
   colorTheme: String
   customBaseColor: String
   timezone: String
@@ -256,10 +255,9 @@ type Settings implements Node & Document {
   _values: JSON!
 }
 
-input SettingsSocialMediaFilter {
-  facebook: StringFilter
-  youtube: StringFilter
-  meetup: StringFilter
+input SettingsSocialLinksFilter {
+  label: StringFilter
+  url: StringFilter
 }
 
 input SettingsMeetingInfoFilter {
@@ -273,7 +271,7 @@ input SettingsFilter {
   siteTitle: StringFilter
   siteDescription: StringFilter
   contactEmail: StringFilter
-  socialMedia: SettingsSocialMediaFilter
+  socialLinks: SettingsSocialLinksFilter
   colorTheme: StringFilter
   customBaseColor: StringFilter
   timezone: StringFilter
@@ -507,10 +505,9 @@ input PagesMutation {
   contactInfo: PagesContactInfoMutation
 }
 
-input SettingsSocialMediaMutation {
-  facebook: String
-  youtube: String
-  meetup: String
+input SettingsSocialLinksMutation {
+  label: String
+  url: String
 }
 
 input SettingsMeetingInfoMutation {
@@ -524,7 +521,7 @@ input SettingsMutation {
   siteTitle: String
   siteDescription: String
   contactEmail: String
-  socialMedia: SettingsSocialMediaMutation
+  socialLinks: [SettingsSocialLinksMutation]
   colorTheme: String
   customBaseColor: String
   timezone: String

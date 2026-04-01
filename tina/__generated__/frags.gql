@@ -37,11 +37,10 @@ fragment SettingsParts on Settings {
   siteTitle
   siteDescription
   contactEmail
-  socialMedia {
+  socialLinks {
     __typename
-    facebook
-    youtube
-    meetup
+    label
+    url
   }
   colorTheme
   customBaseColor
