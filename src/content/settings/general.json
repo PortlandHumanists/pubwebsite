@@ -2,11 +2,11 @@
   "siteTitle": "Humanists of Greater Portland",
   "siteDescription": "A community promoting human well-being, science and reason, secularism, and humanist values in the Portland metro area.",
   "contactEmail": "info@portlandhumanists.org",
-  "socialMedia": {
-    "facebook": "https://facebook.com/portlandhumanists",
-    "youtube": "https://youtube.com/@portlandhumanists",
-    "meetup": "https://meetup.com/humanists-of-greater-portland"
-  },
+  "socialLinks": [
+    { "label": "Facebook", "url": "https://facebook.com/portlandhumanists" },
+    { "label": "YouTube", "url": "https://youtube.com/@portlandhumanists" },
+    { "label": "Meetup", "url": "https://meetup.com/humanists-of-greater-portland" }
+  ],
   "colorTheme": "navy",
   "timezone": "America/Los_Angeles",
   "meetingInfo": {

@@ -291,23 +291,25 @@ export default defineConfig({
           },
           {
             type: "object",
-            name: "socialMedia",
-            label: "Social Media Links",
+            name: "socialLinks",
+            label: "Social & Community Links",
+            list: true,
+            ui: {
+              itemProps: (item) => ({ label: item.label || "Link" }),
+              description: "Add any social media, Meetup groups, or other external links. They appear in the site footer.",
+            },
             fields: [
               {
                 type: "string",
-                name: "facebook",
-                label: "Facebook URL",
+                name: "label",
+                label: "Label",
+                required: true,
               },
               {
                 type: "string",
-                name: "youtube",
-                label: "YouTube URL",
-              },
-              {
-                type: "string",
-                name: "meetup",
-                label: "Meetup URL",
+                name: "url",
+                label: "URL",
+                required: true,
               },
             ],
           },

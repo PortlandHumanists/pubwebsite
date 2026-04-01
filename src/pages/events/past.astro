@@ -43,7 +43,8 @@ const pastEventItems = await Promise.all(pastEvents.map(async event => ({
 let youtubeUrl = 'https://youtube.com/@portlandhumanists';
 try {
   const settingsResult = await client.queries.settings({ relativePath: 'general.json' });
-  youtubeUrl = settingsResult.data.settings.socialMedia?.youtube ?? youtubeUrl;
+  const socialLinks = (settingsResult.data.settings as any).socialLinks ?? [];
+  youtubeUrl = socialLinks.find((l: any) => l.label === 'YouTube')?.url ?? youtubeUrl;
 } catch { /* use default */ }
 ---
 
