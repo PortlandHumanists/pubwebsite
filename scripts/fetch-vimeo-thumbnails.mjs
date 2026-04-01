@@ -8,14 +8,25 @@ import { fileURLToPath } from 'url';
 
 const EVENTS_DIR = join(fileURLToPath(import.meta.url), '../../src/content/events');
 
-const files = (await readdir(EVENTS_DIR)).filter(f => f.endsWith('.md'));
+async function collectMdFiles(dir) {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const results = [];
+  for (const entry of entries) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) results.push(...await collectMdFiles(full));
+    else if (entry.name.endsWith('.md')) results.push(full);
+  }
+  return results;
+}
+
+const files = await collectMdFiles(EVENTS_DIR);
 
 let updated = 0;
 let skipped = 0;
 let failed = 0;
 
-for (const file of files) {
-  const filePath = join(EVENTS_DIR, file);
+for (const filePath of files) {
+  const file = filePath.replace(EVENTS_DIR + '/', '');
   const content = await readFile(filePath, 'utf8');
 
   const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);

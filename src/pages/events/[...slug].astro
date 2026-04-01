@@ -1,20 +1,20 @@
 ---
+export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import '../../styles/global.css';
-import { getCollection } from 'astro:content';
 import { EventVisualEditor } from '../../components/EventVisualEditor';
 import client from '../../../tina/__generated__/client';
 
-export async function getStaticPaths() {
-  const events = await getCollection('events');
-  return events.map(event => ({
-    params: { slug: event.slug },
-    props: { slug: event.slug },
-  }));
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+
+let tinaResult;
+try {
+  tinaResult = await client.queries.events({ relativePath: `${slug}.md` });
+} catch {
+  return Astro.redirect('/404');
 }
 
-const { slug } = Astro.props;
-const tinaResult = await client.queries.events({ relativePath: `${slug}.md` });
 const eventData = tinaResult.data.events;
 const settingsResult = await client.queries.settings({ relativePath: 'general.json' });
 const defaultZoomLink = settingsResult.data.settings.meetingInfo?.defaultZoomLink ?? '';
