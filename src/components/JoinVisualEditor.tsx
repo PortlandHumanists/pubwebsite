@@ -84,6 +84,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                 {/* Step 1: Membership form */}
                 <div id="membershipFormSection">
                 <form id="membershipForm" className="space-y-6">
+                <div id="stage1Content">
                   {/* Philosophical Agreement */}
                   <div className="bg-[var(--hgp-surface-alt)] p-6 rounded-lg">
                     <label className="flex items-start gap-3">
@@ -200,30 +201,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                     </div>
                   </div>
 
-                  {/* Membership Amount */}
-                  <div>
-                    <label htmlFor="membershipAmount" className="block text-sm font-medium text-neutral-700 mb-2">
-                      Membership Amount <span className="text-red-500">*</span>
-                    </label>
-                    <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">$</span>
-                      <input
-                        type="number"
-                        id="membershipAmount"
-                        name="membershipAmount"
-                        min="0"
-                        step="1"
-                        placeholder="50.00"
-                        required
-                        className="w-full pl-8 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-                    <p className="text-sm text-neutral-500 mt-1">
-                      Enter an amount within the suggested range for your membership type
-                    </p>
-                  </div>
-
-                  {/* Lifetime Membership */}
+                    {/* Lifetime Membership */}
                   <div className="bg-neutral-50 p-4 rounded-lg">
                     <label className="flex items-start gap-3">
                       <input type="checkbox" name="lifetimeMember" className="mt-1" />
@@ -274,20 +252,74 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                     </div>
                   </div>
 
-                  {/* Submit Section */}
-                  <div className="pt-6">
-                    <div id="totalAmount" className="bg-[var(--hgp-surface-alt)] rounded-lg p-4 mb-6">
-                      <div className="flex justify-between items-center">
-                        <span className="text-neutral-700 font-medium">Total Amount:</span>
-                        <span className="text-2xl font-bold text-[var(--hgp-primary)]">$0.00</span>
-                      </div>
-                    </div>
-                    {/* PayPal button renders here — injected by inline script after SDK loads */}
-                    <div id="paypal-button-container" className="mb-4" />
-                    <p className="text-sm text-neutral-500 text-center">
-                      Secure payment processing powered by PayPal
+                  {/* Stage 1 → Stage 2 continue button */}
+                  <div className="pt-4">
+                    <button
+                      type="button"
+                      id="continueToStage2"
+                      className="w-full bg-[var(--hgp-primary)] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[var(--hgp-mid)] transition-colors"
+                    >
+                      Continue →
+                    </button>
+                  </div>
+                </div>{/* end stage1Content */}
+
+                {/* Stage 2: Contribution (hidden until stage 1 complete) */}
+                <div id="stage2Content" style={{ display: 'none' }}>
+                  <div className="bg-[var(--hgp-surface-alt)] rounded-lg p-4 mb-6">
+                    <p className="font-medium text-neutral-900 mb-1">Would you like to make a financial contribution?</p>
+                    <p className="text-sm text-neutral-600">
+                      There is no required minimum — members who contribute their time and energy are just as valued!
+                      Enter $0 or leave blank to complete your membership without a payment.
                     </p>
                   </div>
+
+                  {/* Membership Amount */}
+                  <div className="mb-6">
+                    <label htmlFor="membershipAmount" className="block text-sm font-medium text-neutral-700 mb-2">
+                      Contribution Amount (optional)
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">$</span>
+                      <input
+                        type="number"
+                        id="membershipAmount"
+                        name="membershipAmount"
+                        min="0"
+                        step="1"
+                        placeholder="0"
+                        className="w-full pl-8 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <p className="text-sm text-neutral-500 mt-1">
+                      Suggested range shown with your membership type above
+                    </p>
+                  </div>
+
+                  <div id="totalAmount" className="bg-[var(--hgp-surface-alt)] rounded-lg p-4 mb-6">
+                    <div className="flex justify-between items-center">
+                      <span className="text-neutral-700 font-medium">Total Amount:</span>
+                      <span className="text-2xl font-bold text-[var(--hgp-primary)]">$0.00</span>
+                    </div>
+                  </div>
+
+                  {/* PayPal button renders here when amount > 0 */}
+                  <div id="paypal-button-container" className="mb-4" />
+
+                  {/* Complete without payment */}
+                  <button
+                    type="button"
+                    id="completeWithoutPayment"
+                    className="w-full border-2 border-neutral-300 text-neutral-700 px-6 py-3 rounded-lg font-semibold hover:border-[var(--hgp-primary)] hover:text-[var(--hgp-primary)] transition-colors mb-4"
+                  >
+                    Complete Membership (No Payment)
+                  </button>
+
+                  <p className="text-sm text-neutral-500 text-center">
+                    Enter an amount above $0 to pay via PayPal, or click "Complete Membership" to join without a payment.
+                  </p>
+                </div>{/* end stage2Content */}
+
                 </form>
                 </div>{/* end membershipFormSection */}
 
@@ -298,7 +330,7 @@ export function JoinVisualEditor({ query, variables, data }: Props) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <h3 className="text-2xl font-bold text-neutral-900 mb-2">Welcome to HGP!</h3>
-                    <p className="text-neutral-600 mb-4">Your membership payment was successful. You'll receive a confirmation email shortly.</p>
+                    <p className="text-neutral-600 mb-4">Your membership has been submitted. We're glad to have you!</p>
                     <p className="text-sm text-neutral-500">
                       Questions? Email{' '}
                       <a href="mailto:info@portlandhumanists.org" className="text-[var(--hgp-primary)] underline">

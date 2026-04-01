@@ -1,24 +1,18 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import '../styles/global.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/global.css';
 import { getCollection } from 'astro:content';
-import PastEventsGrid from '../components/PastEventsGrid.tsx';
-import { parseInTimezone } from '../utils/time';
-import siteSettings from '../content/settings/general.json';
+import { parseInTimezone } from '../../utils/time';
+import siteSettings from '../../content/settings/general.json';
 
 const allEvents = await getCollection('events');
 const timezone = siteSettings.timezone ?? 'America/Los_Angeles';
 
-// Separate upcoming and past events based on endTime (no manual status field needed)
 const now = new Date();
 
 const upcomingEvents = allEvents
   .filter(event => parseInTimezone(event.data.endTime, timezone) > now)
-  .sort((a, b) => parseInTimezone(a.data.startTime, timezone).getTime() - parseInTimezone(b.data.startTime, timezone).getTime()); // Ascending: soonest first
-
-const pastEvents = allEvents
-  .filter(event => parseInTimezone(event.data.endTime, timezone) <= now)
-  .sort((a, b) => parseInTimezone(b.data.startTime, timezone).getTime() - parseInTimezone(a.data.startTime, timezone).getTime()); // Descending: most recent first
+  .sort((a, b) => parseInTimezone(a.data.startTime, timezone).getTime() - parseInTimezone(b.data.startTime, timezone).getTime());
 
 function formatTime(timeString: string): string {
   const [hours, minutes] = timeString.split(' ')[1].split(':');
@@ -34,35 +28,10 @@ function timezoneAbbr(timeString: string, tz: string): string {
     .formatToParts(new Date(`${d}T${t}:00`))
     .find(p => p.type === 'timeZoneName')?.value ?? '';
 }
-
-async function fetchVimeoThumbnail(vimeoId: string): Promise<string | undefined> {
-  try {
-    const res = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vimeoId}`);
-    if (!res.ok) return undefined;
-    const data = await res.json();
-    return data.thumbnail_url ?? undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-const pastEventItems = await Promise.all(pastEvents.map(async event => ({
-  slug: event.slug,
-  title: event.data.title,
-  startTime: event.data.startTime,
-  presenter: event.data.presenter,
-  description: event.data.description,
-  youtubeId: event.data.youtubeId,
-  vimeoId: event.data.vimeoId,
-  vimeoThumbnail: event.data.vimeoThumbnail
-    || (event.data.vimeoId && !event.data.youtubeId
-      ? await fetchVimeoThumbnail(event.data.vimeoId)
-      : undefined),
-})));
 ---
 
 <BaseLayout title="Events - Humanists of Greater Portland">
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hgp-cta text-white py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-4xl md:text-5xl font-bold mb-4">Sunday Programs</h1>
@@ -72,6 +41,17 @@ const pastEventItems = await Promise.all(pastEvents.map(async event => ({
       </p>
     </div>
   </section>
+
+  <!-- Subnav -->
+  <div class="bg-white border-b border-neutral-200 sticky top-20 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex gap-1 py-2">
+        <a href="/events" class="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--hgp-surface)] text-[var(--hgp-primary)]">Upcoming</a>
+        <a href="/events/calendar" class="px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 transition-colors">Calendar</a>
+        <a href="/events/past" class="px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 transition-colors">Past Programs</a>
+      </nav>
+    </div>
+  </div>
 
   <!-- Upcoming Events -->
   <section class="py-16 bg-neutral-50">
@@ -105,9 +85,7 @@ const pastEventItems = await Promise.all(pastEvents.map(async event => ({
                 </div>
 
                 <div class="flex-1 p-6 md:p-8">
-                  <h3 class="text-2xl font-bold text-neutral-900 mb-3">
-                    {event.data.title}
-                  </h3>
+                  <h3 class="text-2xl font-bold text-neutral-900 mb-3">{event.data.title}</h3>
 
                   <div class="space-y-2 mb-4">
                     <div class="flex items-center gap-3 text-neutral-700">
@@ -116,14 +94,12 @@ const pastEventItems = await Promise.all(pastEvents.map(async event => ({
                       </svg>
                       <span>{event.data.presenter} &mdash; {event.data.presenterTitle}</span>
                     </div>
-
                     <div class="flex items-center gap-3 text-neutral-700">
                       <svg class="w-5 h-5 text-[var(--hgp-primary)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <span>{formatTime(event.data.startTime)} - {formatTime(event.data.endTime)} {timezoneAbbr(event.data.endTime, timezone)}</span>
                     </div>
-
                     <div class="flex items-center gap-3 text-neutral-700">
                       <svg class="w-5 h-5 text-[var(--hgp-primary)] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -133,18 +109,14 @@ const pastEventItems = await Promise.all(pastEvents.map(async event => ({
                     </div>
                   </div>
 
-                  <p class="text-neutral-600 mb-4 line-clamp-2">
-                    {event.data.description}
-                  </p>
+                  <p class="text-neutral-600 mb-4 line-clamp-2">{event.data.description}</p>
 
-                  <div class="flex items-center gap-4">
-                    <span class="inline-flex items-center gap-2 text-[var(--hgp-primary)] font-medium">
-                      View Details
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                  </div>
+                  <span class="inline-flex items-center gap-2 text-[var(--hgp-primary)] font-medium">
+                    View Details
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
                 </div>
               </div>
             </a>
@@ -154,49 +126,21 @@ const pastEventItems = await Promise.all(pastEvents.map(async event => ({
     </div>
   </section>
 
-  <!-- Past Events -->
-  {pastEvents.length > 0 && (
-    <section class="py-16 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 id="past-programs" class="text-3xl font-bold text-neutral-900 mb-8">Past Programs</h2>
-
-        <PastEventsGrid events={pastEventItems} client:load />
-
-        <!-- YouTube Subscribe CTA -->
-        <div class="mt-12 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-center gap-6">
-          <svg class="w-14 h-14 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
-          <div class="flex-1 text-center md:text-left">
-            <h3 class="text-xl font-bold text-neutral-900 mb-1">Subscribe on YouTube</h3>
-            <p class="text-neutral-600">Get notified when we upload new recordings from our Sunday programs.</p>
-          </div>
-          <a
-            href="https://youtube.com/@portlandhumanists"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex-shrink-0 inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
-          >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-            Subscribe
-          </a>
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- CTA Section -->
+  <!-- CTA -->
   <section class="py-16 hgp-cta text-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h2 class="text-3xl font-bold mb-4">Never Miss a Program</h2>
       <p class="text-xl text-[var(--hgp-on-primary)] mb-8">
         Join our mailing list to receive weekly reminders and updates about upcoming events.
       </p>
-      <a href="/join" class="inline-block bg-white text-[var(--hgp-primary)] px-8 py-4 rounded-lg font-bold text-lg hover:bg-[var(--hgp-surface-alt)] transition-colors">
-        Join Our Community
-      </a>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/join" class="inline-block bg-white text-[var(--hgp-primary)] px-8 py-4 rounded-lg font-bold text-lg hover:bg-[var(--hgp-surface-alt)] transition-colors">
+          Join Our Community
+        </a>
+        <a href="/events/calendar" class="inline-block border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-[var(--hgp-primary)] transition-colors">
+          View Calendar
+        </a>
+      </div>
     </div>
   </section>
 </BaseLayout>

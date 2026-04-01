@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+
+const fund = Astro.url.searchParams.get('fund');
+const isScholarship = fund === 'scholarship';
+
+const pageTitle = isScholarship ? 'Contribute to the Scholarship Fund' : 'Donate to HGP';
+const paypalClientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
+---
+
+<BaseLayout title={`${pageTitle} - Humanists of Greater Portland`}>
+  <!-- Netlify Forms decoy -->
+  <form name="donationForm" netlify hidden>
+    <input name="donationAmount" />
+    <input name="donationFund" />
+    <input name="donorName" />
+    <input name="donorEmail" />
+    <input name="paypalOrderId" />
+  </form>
+
+  <!-- Hero -->
+  <section class="hgp-cta text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">{pageTitle}</h1>
+      {isScholarship ? (
+        <p class="text-xl text-[var(--hgp-on-primary)]">Support the Del Allen Annual Scholarship — helping Portland-area students pursue humanist values and higher education.</p>
+      ) : (
+        <p class="text-xl text-[var(--hgp-on-primary)]">Your contribution helps the Humanists of Greater Portland promote humanist values, fund scholarships, and support community outreach.</p>
+      )}
+    </div>
+  </section>
+
+  <!-- Donate Form -->
+  <section class="py-16 bg-neutral-50">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-xl p-8 shadow-sm">
+
+        <!-- Donation form (hidden when thank-you shows) -->
+        <div id="donationFormSection">
+          <h2 class="text-2xl font-bold text-neutral-900 mb-6">Make a Contribution</h2>
+
+          {isScholarship && (
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+              <p class="text-sm text-amber-900">
+                <strong>Scholarship Fund:</strong> Your donation will be designated for the Del Allen Annual Scholarship Fund.
+              </p>
+            </div>
+          )}
+
+          <form id="donationForm" class="space-y-6">
+            <input type="hidden" name="donationFund" value={isScholarship ? 'Del Allen Scholarship Fund' : 'General Fund'} />
+
+            <!-- Donor info (optional) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="donorName" class="block text-sm font-medium text-neutral-700 mb-2">Your Name (optional)</label>
+                <input type="text" id="donorName" name="donorName" placeholder="Name"
+                  class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+              </div>
+              <div>
+                <label for="donorEmail" class="block text-sm font-medium text-neutral-700 mb-2">Email (optional)</label>
+                <input type="email" id="donorEmail" name="donorEmail" placeholder="email@example.com"
+                  class="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+              </div>
+            </div>
+
+            <!-- Amount -->
+            <div>
+              <label for="donationAmount" class="block text-sm font-medium text-neutral-700 mb-2">
+                Contribution Amount <span class="text-red-500">*</span>
+              </label>
+              <!-- Quick-pick amounts -->
+              <div class="flex flex-wrap gap-2 mb-3">
+                {['25', '50', '100', '250'].map(amt => (
+                  <button type="button" class="amount-preset px-4 py-2 border border-neutral-300 rounded-lg text-sm hover:border-[var(--hgp-primary)] hover:text-[var(--hgp-primary)] transition-colors" data-amount={amt}>
+                    ${amt}
+                  </button>
+                ))}
+              </div>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">$</span>
+                <input
+                  type="number"
+                  id="donationAmount"
+                  name="donationAmount"
+                  min="1"
+                  step="1"
+                  required
+                  placeholder="50"
+                  class="w-full pl-8 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <!-- Total display -->
+            <div class="bg-[var(--hgp-surface-alt)] rounded-lg p-4">
+              <div class="flex justify-between items-center">
+                <span class="text-neutral-700 font-medium">Donation Total:</span>
+                <span id="donationTotal" class="text-2xl font-bold text-[var(--hgp-primary)]">$0.00</span>
+              </div>
+            </div>
+
+            <!-- PayPal button renders here -->
+            <div id="paypal-donate-container" class="mb-4"></div>
+
+            <p class="text-sm text-neutral-500 text-center">
+              Secure payment processing powered by PayPal. All donations are tax-deductible to the extent allowed by law.
+            </p>
+          </form>
+
+          <!-- By-mail option -->
+          <div class="mt-8 pt-8 border-t">
+            <h3 class="font-semibold text-neutral-900 mb-2">Prefer to donate by mail?</h3>
+            <p class="text-sm text-neutral-600">
+              Send a check payable to <em>Humanists of Greater Portland</em>:<br />
+              PO Box 8475, Portland, OR 97207
+              {isScholarship && (
+                <><br /><span class="text-neutral-500">Please note "Scholarship Fund" on the memo line.</span></>
+              )}
+            </p>
+          </div>
+        </div><!-- end donationFormSection -->
+
+        <!-- Thank you (shown after successful payment) -->
+        <div id="donationThankYou" style="display:none">
+          <div class="text-center py-12">
+            <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="text-2xl font-bold text-neutral-900 mb-2">Thank You!</h3>
+            <p class="text-neutral-600 mb-4">Your contribution was received. We appreciate your support of the Humanists of Greater Portland.</p>
+            <p class="text-sm text-neutral-500">
+              Questions? Email <a href="mailto:info@portlandhumanists.org" class="text-[var(--hgp-primary)] underline">info@portlandhumanists.org</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ paypalClientId, isScholarship }}>
+  // Load PayPal SDK
+  if (paypalClientId) {
+    const sdkScript = document.createElement('script');
+    sdkScript.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=USD&intent=capture`;
+    document.head.appendChild(sdkScript);
+  }
+
+  const form = document.getElementById('donationForm');
+  const amountInput = document.getElementById('donationAmount');
+  const totalDisplay = document.getElementById('donationTotal');
+
+  function updateTotal() {
+    const amount = parseFloat(amountInput?.value || '0');
+    if (totalDisplay) {
+      totalDisplay.textContent = `$${amount.toFixed(2)}`;
+    }
+  }
+
+  amountInput?.addEventListener('input', updateTotal);
+
+  // Quick-pick buttons
+  document.querySelectorAll('.amount-preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (amountInput) {
+        amountInput.value = btn.getAttribute('data-amount') || '';
+        updateTotal();
+      }
+    });
+  });
+
+  function renderPayPal() {
+    if (typeof window.paypal === 'undefined') {
+      setTimeout(renderPayPal, 200);
+      return;
+    }
+    window.paypal.Buttons({
+      onClick: (_data, actions) => {
+        const amount = parseFloat(amountInput?.value || '0');
+        if (amount <= 0) {
+          amountInput?.setCustomValidity('Please enter an amount greater than $0.');
+          amountInput?.reportValidity();
+          return actions.reject();
+        }
+        amountInput?.setCustomValidity('');
+        return actions.resolve();
+      },
+      createOrder: (_data, actions) => {
+        const amount = parseFloat(amountInput?.value || '0');
+        const description = isScholarship ? 'HGP Del Allen Scholarship Fund' : 'HGP Donation';
+        return actions.order.create({
+          purchase_units: [{
+            description,
+            amount: { value: amount.toFixed(2) },
+          }],
+        });
+      },
+      onApprove: async (data, actions) => {
+        await actions.order.capture();
+
+        const formData = new FormData(form);
+        const body = new URLSearchParams({ 'form-name': 'donationForm', paypalOrderId: data.orderID });
+        for (const [key, val] of formData.entries()) {
+          body.append(key, val.toString());
+        }
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+        });
+
+        document.getElementById('donationFormSection').style.display = 'none';
+        document.getElementById('donationThankYou').style.display = 'block';
+      },
+      onError: (err) => {
+        console.error('PayPal error', err);
+        alert('Payment failed. Please try again or contact us at info@portlandhumanists.org.');
+      },
+    }).render('#paypal-donate-container');
+  }
+  renderPayPal();
+</script>

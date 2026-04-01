@@ -46,6 +46,19 @@ export function PageVisualEditor({ query, variables, data }: Props) {
             )}
           </div>
 
+          {/* Scholarship donation CTA */}
+          {(page as any)._sys?.filename === 'scholarship' && (
+            <div className="mt-10 p-6 bg-[var(--hgp-surface-alt)] rounded-xl text-center">
+              <p className="text-neutral-700 mb-4">Want to support the next generation of humanist thinkers?</p>
+              <a
+                href="/contribute?fund=scholarship"
+                className="inline-block bg-[var(--hgp-primary)] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[var(--hgp-mid)] transition-colors"
+              >
+                Contribute to the Scholarship Fund →
+              </a>
+            </div>
+          )}
+
           {/* Contact Info (about layout only) */}
           {page.pageLayout === 'about' && page.contactInfo && (
             <div className="mt-12 bg-[var(--hgp-surface-alt)] rounded-xl p-8">

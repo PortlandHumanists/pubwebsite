@@ -3,6 +3,7 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import '../../styles/global.css';
 import { EventVisualEditor } from '../../components/EventVisualEditor';
+import { getEntry } from 'astro:content';
 import client from '../../../tina/__generated__/client';
 
 const { slug } = Astro.params;
@@ -12,13 +13,32 @@ let tinaResult;
 try {
   tinaResult = await client.queries.events({ relativePath: `${slug}.md` });
 } catch {
-  return Astro.redirect('/404');
+  // Tina Cloud may not have indexed this event yet — fall back to content collections
+  const entry = await getEntry('events', slug);
+  if (!entry) return Astro.redirect('/404');
+  tinaResult = {
+    query: '',
+    variables: { relativePath: `${slug}.md` },
+    data: {
+      events: {
+        ...entry.data,
+        date: entry.data.date?.toISOString?.() ?? entry.data.date,
+        body: null,
+        _sys: { filename: slug, relativePath: `${slug}.md` },
+      },
+    },
+  };
 }
 
 const eventData = tinaResult.data.events;
-const settingsResult = await client.queries.settings({ relativePath: 'general.json' });
-const defaultZoomLink = settingsResult.data.settings.meetingInfo?.defaultZoomLink ?? '';
-const timezone = settingsResult.data.settings.timezone ?? 'America/Los_Angeles';
+
+let defaultZoomLink = '';
+let timezone = 'America/Los_Angeles';
+try {
+  const settingsResult = await client.queries.settings({ relativePath: 'general.json' });
+  defaultZoomLink = settingsResult.data.settings.meetingInfo?.defaultZoomLink ?? '';
+  timezone = settingsResult.data.settings.timezone ?? 'America/Los_Angeles';
+} catch { /* use defaults */ }
 
 ---
 

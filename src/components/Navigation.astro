@@ -17,14 +17,28 @@ const pagesByParent = navPages.reduce((acc, page) => {
   return acc;
 }, {} as Record<string, typeof navPages>);
 
+interface NavItem {
+  label: string;
+  href: string;
+  order: number;
+  highlight?: boolean;
+  donateHighlight?: boolean;
+  children?: { label: string; href: string }[];
+}
+
 // Static navigation items (hardcoded pages)
-const staticNavItems = [
-  { label: 'Events', href: '/events', order: 3 },
+const staticNavItems: NavItem[] = [
+  { label: 'Events', href: '/events', order: 3, children: [
+    { label: 'Upcoming', href: '/events' },
+    { label: 'Calendar', href: '/events/calendar' },
+    { label: 'Past Programs', href: '/events/past' },
+  ]},
+  { label: 'Donate', href: '/contribute', order: 9, donateHighlight: true },
   { label: 'Join Us', href: '/join', order: 10, highlight: true },
 ];
 
 // Combine static and dynamic pages, sorting by order
-const allNavItems = [
+const allNavItems: NavItem[] = [
   ...staticNavItems,
   ...topLevelPages.map(page => ({
     label: page.data.title,
@@ -54,6 +68,13 @@ const currentPath = Astro.url.pathname;
           <a
             href={item.href}
             class="bg-[var(--hgp-primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--hgp-mid)] transition-colors font-medium"
+          >
+            {item.label}
+          </a>
+        ) : item.donateHighlight ? (
+          <a
+            href={item.href}
+            class="border-2 border-[var(--hgp-primary)] text-[var(--hgp-primary)] px-4 py-2 rounded-lg hover:bg-[var(--hgp-primary)] hover:text-white transition-colors font-medium"
           >
             {item.label}
           </a>
@@ -111,6 +132,13 @@ const currentPath = Astro.url.pathname;
           <a
             href={item.href}
             class="block bg-[var(--hgp-primary)] text-white px-3 py-2 rounded-lg font-medium text-center"
+          >
+            {item.label}
+          </a>
+        ) : item.donateHighlight ? (
+          <a
+            href={item.href}
+            class="block border-2 border-[var(--hgp-primary)] text-[var(--hgp-primary)] px-3 py-2 rounded-lg font-medium text-center"
           >
             {item.label}
           </a>

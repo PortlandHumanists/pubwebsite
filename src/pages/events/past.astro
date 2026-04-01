@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/global.css';
+import { getCollection } from 'astro:content';
+import PastEventsGrid from '../../components/PastEventsGrid.tsx';
+import { parseInTimezone } from '../../utils/time';
+import siteSettings from '../../content/settings/general.json';
+import client from '../../../tina/__generated__/client';
+
+const allEvents = await getCollection('events');
+const timezone = siteSettings.timezone ?? 'America/Los_Angeles';
+const now = new Date();
+
+const pastEvents = allEvents
+  .filter(event => parseInTimezone(event.data.endTime, timezone) <= now)
+  .sort((a, b) => parseInTimezone(b.data.startTime, timezone).getTime() - parseInTimezone(a.data.startTime, timezone).getTime());
+
+async function fetchVimeoThumbnail(vimeoId: string): Promise<string | undefined> {
+  try {
+    const res = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vimeoId}`);
+    if (!res.ok) return undefined;
+    const data = await res.json();
+    return data.thumbnail_url ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+const pastEventItems = await Promise.all(pastEvents.map(async event => ({
+  slug: event.slug,
+  title: event.data.title,
+  startTime: event.data.startTime,
+  presenter: event.data.presenter,
+  description: event.data.description,
+  youtubeId: event.data.youtubeId,
+  vimeoId: event.data.vimeoId,
+  vimeoThumbnail: event.data.vimeoThumbnail
+    || (event.data.vimeoId && !event.data.youtubeId
+      ? await fetchVimeoThumbnail(event.data.vimeoId)
+      : undefined),
+})));
+
+let youtubeUrl = 'https://youtube.com/@portlandhumanists';
+try {
+  const settingsResult = await client.queries.settings({ relativePath: 'general.json' });
+  youtubeUrl = settingsResult.data.settings.socialMedia?.youtube ?? youtubeUrl;
+} catch { /* use default */ }
+---
+
+<BaseLayout title="Past Programs - Humanists of Greater Portland">
+  <!-- Hero -->
+  <section class="hgp-cta text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Past Programs</h1>
+      <p class="text-xl text-[var(--hgp-on-primary)] max-w-2xl">
+        Browse recordings and summaries from our Sunday programs archive.
+      </p>
+    </div>
+  </section>
+
+  <!-- Subnav -->
+  <div class="bg-white border-b border-neutral-200 sticky top-20 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex gap-1 py-2">
+        <a href="/events" class="px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 transition-colors">Upcoming</a>
+        <a href="/events/calendar" class="px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 transition-colors">Calendar</a>
+        <a href="/events/past" class="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--hgp-surface)] text-[var(--hgp-primary)]">Past Programs</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Past Events Grid -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {pastEventItems.length === 0 ? (
+        <div class="bg-neutral-50 rounded-xl p-8 text-center">
+          <p class="text-neutral-600">No past events yet.</p>
+        </div>
+      ) : (
+        <PastEventsGrid events={pastEventItems} client:load />
+      )}
+
+      <!-- YouTube Subscribe CTA -->
+      <div class="mt-12 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-center gap-6">
+        <svg class="w-14 h-14 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        <div class="flex-1 text-center md:text-left">
+          <h3 class="text-xl font-bold text-neutral-900 mb-1">Subscribe on YouTube</h3>
+          <p class="text-neutral-600">Get notified when we upload new recordings from our Sunday programs.</p>
+        </div>
+        <a
+          href={youtubeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex-shrink-0 inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+          Subscribe
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

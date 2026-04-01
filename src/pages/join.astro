@@ -42,14 +42,14 @@ const paypalClientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
     document.head.appendChild(sdkScript);
   }
 
-  // Calculate total dynamically
   const form = document.getElementById('membershipForm');
   const membershipAmountInput = document.getElementById('membershipAmount');
   const totalAmountDiv = document.getElementById('totalAmount');
+  const stage1Content = document.getElementById('stage1Content');
+  const stage2Content = document.getElementById('stage2Content');
 
   function updateTotal() {
     const amount = parseFloat(membershipAmountInput?.value || '0');
-
     if (totalAmountDiv) {
       totalAmountDiv.innerHTML = `
         <div class="flex justify-between items-center">
@@ -63,25 +63,17 @@ const paypalClientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
   // Update placeholder when membership type changes
   form?.querySelectorAll('input[name="membershipType"]').forEach(input => {
     input.addEventListener('change', (e) => {
-      const target = e.target;
-      const type = target.value;
-
+      const type = e.target.value;
       if (membershipAmountInput) {
         switch(type) {
-          case 'individual':
-            membershipAmountInput.placeholder = '50.00';
-            break;
-          case 'joint':
-            membershipAmountInput.placeholder = '90.00';
-            break;
+          case 'individual': membershipAmountInput.placeholder = '50'; break;
+          case 'joint':      membershipAmountInput.placeholder = '90'; break;
           case 'newsletter':
-            membershipAmountInput.placeholder = '12.00';
+            membershipAmountInput.placeholder = '12';
             membershipAmountInput.value = '12';
             updateTotal();
             break;
-          case 'limited':
-            membershipAmountInput.placeholder = '0.00';
-            break;
+          case 'limited':    membershipAmountInput.placeholder = '0'; break;
         }
       }
     });
@@ -89,25 +81,63 @@ const paypalClientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
 
   membershipAmountInput?.addEventListener('input', updateTotal);
 
-  // Initial update
-  updateTotal();
+  // Stage 1 → Stage 2 transition
+  document.getElementById('continueToStage2')?.addEventListener('click', () => {
+    // Validate all required fields in stage 1
+    const stage1Inputs = stage1Content?.querySelectorAll('input[required], textarea[required]');
+    let valid = true;
+    stage1Inputs?.forEach(field => {
+      if (!field.checkValidity()) {
+        field.reportValidity();
+        valid = false;
+      }
+    });
+    if (!valid) return;
 
-  // Render PayPal button directly in the form once SDK is ready
+    // Show stage 2
+    if (stage1Content) stage1Content.style.display = 'none';
+    if (stage2Content) {
+      stage2Content.style.display = 'block';
+      stage2Content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    renderPayPal();
+  });
+
+  // Helper: submit form data to Netlify and show thank you
+  async function submitAndThankYou(paypalOrderId) {
+    const formData = new FormData(form);
+    const body = new URLSearchParams({ 'form-name': 'membershipForm', paypalOrderId });
+    for (const [key, val] of formData.entries()) body.append(key, val.toString());
+    await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString(),
+    });
+    const formSection = document.getElementById('membershipFormSection');
+    const thankYouSection = document.getElementById('thankYouSection');
+    if (formSection) formSection.style.display = 'none';
+    if (thankYouSection) thankYouSection.style.display = 'block';
+  }
+
+  // Complete without payment
+  document.getElementById('completeWithoutPayment')?.addEventListener('click', () => {
+    submitAndThankYou('none');
+  });
+
+  // Render PayPal button (called after stage 1 is complete)
+  let paypalRendered = false;
   function renderPayPal() {
+    if (paypalRendered) return;
     if (typeof window.paypal === 'undefined') {
       setTimeout(renderPayPal, 200);
       return;
     }
+    paypalRendered = true;
     window.paypal.Buttons({
       onClick: (_data, actions) => {
-        // Validate form before opening PayPal checkout
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return actions.reject();
-        }
         const amount = parseFloat(membershipAmountInput?.value || '0');
         if (amount <= 0) {
-          membershipAmountInput?.setCustomValidity('Please enter an amount greater than $0.');
+          membershipAmountInput?.setCustomValidity('Please enter an amount greater than $0 to pay via PayPal, or click "Complete Membership" to join without a payment.');
           membershipAmountInput?.reportValidity();
           return actions.reject();
         }
@@ -125,24 +155,7 @@ const paypalClientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
       },
       onApprove: async (data, actions) => {
         await actions.order.capture();
-
-        // Snapshot form data and submit to Netlify Forms
-        const formData = new FormData(form);
-        const body = new URLSearchParams({ 'form-name': 'membershipForm', paypalOrderId: data.orderID });
-        for (const [key, val] of formData.entries()) {
-          body.append(key, val.toString());
-        }
-        await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: body.toString(),
-        });
-
-        // Show thank you
-        const formSection = document.getElementById('membershipFormSection');
-        const thankYouSection = document.getElementById('thankYouSection');
-        if (formSection) formSection.style.display = 'none';
-        if (thankYouSection) thankYouSection.style.display = 'block';
+        await submitAndThankYou(data.orderID);
       },
       onError: (err) => {
         console.error('PayPal error', err);
@@ -150,5 +163,4 @@ const paypalClientId = import.meta.env.PUBLIC_PAYPAL_CLIENT_ID ?? '';
       },
     }).render('#paypal-button-container');
   }
-  renderPayPal();
 </script>
