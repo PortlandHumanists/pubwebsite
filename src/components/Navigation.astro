@@ -23,6 +23,7 @@ interface NavItem {
   order: number;
   highlight?: boolean;
   donateHighlight?: boolean;
+  external?: boolean;
   children?: { label: string; href: string }[];
 }
 
@@ -33,6 +34,7 @@ const staticNavItems: NavItem[] = [
     { label: 'Calendar', href: '/events/calendar' },
     { label: 'Past Programs', href: '/events/past' },
   ]},
+  { label: 'Members', href: 'https://members.portlandhumanists.org', order: 8, external: true },
   { label: 'Donate', href: '/contribute', order: 9, donateHighlight: true },
   { label: 'Join Us', href: '/join', order: 10, highlight: true },
 ];
@@ -107,6 +109,8 @@ const currentPath = Astro.url.pathname;
           <a
             href={item.href}
             class={`text-neutral-700 hover:text-[var(--hgp-primary)] transition-colors font-medium ${currentPath === item.href ? 'text-[var(--hgp-primary)]' : ''}`}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
           >
             {item.label}
           </a>
@@ -165,6 +169,8 @@ const currentPath = Astro.url.pathname;
           <a
             href={item.href}
             class={`block px-3 py-2 rounded-md text-base font-medium ${currentPath === item.href ? 'text-[var(--hgp-primary)] bg-[var(--hgp-surface)]' : 'text-neutral-700 hover:text-[var(--hgp-primary)] hover:bg-gray-50'}`}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
           >
             {item.label}
           </a>
