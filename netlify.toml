@@ -8,6 +8,34 @@
   publish = "dist"
 
 
+# Redirects from old Drupal site URLs
+[[redirects]]
+  from = "/vimeo-of-programs"
+  to = "/events/past"
+  status = 301
+
+[[redirects]]
+  from = "/vimeo-of-programs/*"
+  to = "/events/past"
+  status = 301
+
+
+[[redirects]]
+  from = "/content/hgp*scholarship*"
+  to = "/scholarship"
+  status = 301
+
+
+[[redirects]]
+  from = "/sites/default/files/PDF/*"
+  to = "/uploads/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/sites/default/files/*"
+  to = "/uploads/:splat"
+  status = 301
+
 # TinaCMS admin security headers
 [[headers]]
   for = "/admin/*"
