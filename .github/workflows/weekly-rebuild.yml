@@ -3,10 +3,9 @@ name: Weekly Sunday Rebuild
 on:
   workflow_dispatch:
   schedule:
-    # 12:30 PM Pacific (20:30 UTC) every Sunday
-    # During PDT (summer): UTC-7, so 20:30 UTC = 1:30 PM PDT
-    # During PST (winter): UTC-8, so 20:30 UTC = 12:30 PM PST
-    - cron: '30 20 * * 0'
+    # 12:30 PM PDT (19:30 UTC) every Sunday
+    # Note: in PST (winter, UTC-8) this fires at 11:30 AM — still fine since program ends at noon
+    - cron: '30 19 * * 0'
 
 jobs:
   trigger-rebuild:
