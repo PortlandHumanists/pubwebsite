@@ -11,3 +11,4 @@ description: |
 youtubeId: KN2Ngy1i8vU
 ---
 
+You might enjoy this as much as the HGP members did.  Presented by our dedicated activist and creative HGP president Anne Henderson.
