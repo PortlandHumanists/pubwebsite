@@ -7,6 +7,7 @@ startTime: '2026-04-12 10:00'
 endTime: '2026-04-12 11:30'
 location: Friendly House & Zoom
 speakerRemote: true
+zoomLink: 'https://us02web.zoom.us/j/88034481752?pwd=xO1WTHWMqUSHoMBPXSpx9PE8oXarii.1'
 description: 'Over Zoom. All organisms must find enough food for reproduction, and all animals with varied diets must decide whether to pursue and capture a potential prey or wait for another that might arrive.  This seemingly simple dilemma has spawned a rich theoretical and empirical literature on Foraging Theory. Investigator Gordon Orians, frequent HGP presenter and Professor Emeritus from University of Washington, will guide your tour of the surprising theoretical and experimental results of attempts to answer that seemingly simple question and to show how difficult it was. Dr. Orians has also served on Nat. and American Academies of Sciences.'
 ---
 
