@@ -29,7 +29,7 @@
 /* Three-stop hero gradient */
 .hgp-hero {
   background-color: var(--hgp-primary);
-  background-image: linear-gradient(to right, rgba(0,0,0,0.72), rgba(0,0,0,0.25)), url('/banner.png');
+  background-image: linear-gradient(to right, rgba(0,0,0,0.72), rgba(0,0,0,0.25)), url('/banner3.png');
   background-size: cover;
   background-position: center;
   text-shadow: 0 1px 4px rgba(0,0,0,0.5);
