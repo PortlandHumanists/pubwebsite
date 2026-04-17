@@ -19,7 +19,9 @@ export type PastEventItem = {
 };
 
 function parseDate(startTime: string) {
-  return new Date(startTime.replace(' ', 'T'));
+  // Normalize "YYYY-MM-DD H:MM" → "YYYY-MM-DDTHH:MM" so Node strict ISO parsing works
+  const normalized = startTime.replace(' ', 'T').replace(/T(\d):/, 'T0$1:');
+  return new Date(normalized);
 }
 
 function formatDate(startTime: string): string {
