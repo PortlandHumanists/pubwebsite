@@ -12,7 +12,7 @@ const timezone = siteSettings.timezone ?? 'America/Los_Angeles';
 const now = new Date();
 
 const pastEvents = allEvents
-  .filter(event => parseInTimezone(event.data.endTime, timezone) <= now)
+  .filter(event => event.data.startTime && event.data.endTime && parseInTimezone(event.data.endTime, timezone) <= now)
   .sort((a, b) => parseInTimezone(b.data.startTime, timezone).getTime() - parseInTimezone(a.data.startTime, timezone).getTime());
 
 async function fetchVimeoThumbnail(vimeoId: string): Promise<string | undefined> {
