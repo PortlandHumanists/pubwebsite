@@ -87,6 +87,7 @@ var config_default = defineConfig({
             label: "Start Date & Time",
             required: true,
             ui: {
+              timeFormat: "HH:mm",
               description: "When the program begins (Pacific time)"
             }
           },
@@ -96,6 +97,7 @@ var config_default = defineConfig({
             label: "End Date & Time",
             required: true,
             ui: {
+              timeFormat: "HH:mm",
               description: "When the program ends \u2014 must be after start"
             }
           },

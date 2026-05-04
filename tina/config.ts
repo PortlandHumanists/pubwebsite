@@ -96,6 +96,7 @@ export default defineConfig({
             label: "Start Date & Time",
             required: true,
             ui: {
+              timeFormat: "HH:mm",
               description: "When the program begins (Pacific time)",
             },
           },
@@ -105,6 +106,7 @@ export default defineConfig({
             label: "End Date & Time",
             required: true,
             ui: {
+              timeFormat: "HH:mm",
               description: "When the program ends — must be after start",
             },
           },
