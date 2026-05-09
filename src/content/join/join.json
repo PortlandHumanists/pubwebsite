@@ -72,14 +72,14 @@
       "label": "State",
       "fieldName": "state",
       "fieldType": "text",
-      "required": false,
+      "required": true,
       "placeholder": "State"
     },
     {
       "label": "ZIP Code",
       "fieldName": "zip",
       "fieldType": "text",
-      "required": false,
+      "required": true,
       "placeholder": "ZIP"
     }
   ],
