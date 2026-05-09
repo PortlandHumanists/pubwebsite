@@ -51,7 +51,7 @@
       "label": "Phone Number",
       "fieldName": "phone",
       "fieldType": "tel",
-      "required": false,
+      "required": true,
       "placeholder": ""
     },
     {
