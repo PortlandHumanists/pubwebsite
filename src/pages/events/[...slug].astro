@@ -22,7 +22,9 @@ try {
     data: {
       events: {
         ...entry.data,
-        date: entry.data.date?.toISOString?.() ?? entry.data.date,
+        date: entry.data.date instanceof Date ? entry.data.date.toISOString() : entry.data.date,
+        startTime: entry.data.startTime instanceof Date ? entry.data.startTime.toISOString() : entry.data.startTime,
+        endTime: entry.data.endTime instanceof Date ? entry.data.endTime.toISOString() : entry.data.endTime,
         body: null,
         _sys: { filename: slug, relativePath: `${slug}.md` },
       },

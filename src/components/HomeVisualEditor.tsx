@@ -227,8 +227,8 @@ export function HomeVisualEditor({ query, variables, data, upcomingEvents, recen
           {upcomingEvent && upcomingDate ? (
             <div
               id="featured-event-card"
-              data-start={upcomingEvent.data.startTime}
-              data-end={upcomingEvent.data.endTime}
+              data-start={toDate(upcomingEvent.data.startTime).toISOString()}
+              data-end={toDate(upcomingEvent.data.endTime).toISOString()}
               className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden"
             >
               {/* Live banner — shown by client script when event is in progress */}
