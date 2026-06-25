@@ -1,5 +1,5 @@
 ---
-title: Talent Show (Father's day)
+title: Talent Show
 date: 2026-06-28T17:00:02.941Z
 presenter: Al Christians and Talent
 startTime: 2026-06-28T17:00:02.941Z
@@ -8,4 +8,4 @@ location: Friendly House & Zoom
 description: "From FH. Emcee Al Christians writes: Come To Receive Clear, Sweet and Refreshing Joy into Your Weary Minds. We cease the serious sermonettes to celebrate a successful semi-annum sustaining our species with staunch service, steadfast synergy, and selfless stamina to simply show our stuff on stage. All members are welcome to join the show, solo or in groups, to entertain their friends and companions as people have for many thousands of years. The essences are human narratives, emotions, humor and drama; the artistic elements, color, energy, composition,\_ voice, melody, harmony and rhythm. Anything goes. The maximum is five minutes per act. \n"
 ---
 
-From FH. Emcee Al Christians writes: Come To Receive Clear, Sweet and Refreshing Joy into Your Weary Minds. We cease the serious sermonettes to celebrate a successful semi-annum sustaining our species with staunch service, steadfast synergy, and selfless stamina to simply show our stuff on stage. All members are welcome to join the show, solo or in groups, to entertain their friends and companions as people have for many thousands of years. The essences are human narratives, emotions, humor and drama; the artistic elements, color, energy, composition,  voice, melody, harmony and rhythm. Anything goes. The maximum is five minutes per act. 
+From FH. Emcee Al Christians writes: Come To Receive Clear, Sweet and Refreshing Joy into Your Weary Minds. We cease the serious sermonettes to celebrate a successful semi-annum sustaining our species with staunch service, steadfast synergy, and selfless stamina to simply show our stuff on stage. All members are welcome to join the show, solo or in groups, to entertain their friends and companions as people have for many thousands of years. The essences are human narratives, emotions, humor and drama; the artistic elements, color, energy, composition,  voice, melody, harmony and rhythm. Anything goes. The maximum is five minutes per act.
