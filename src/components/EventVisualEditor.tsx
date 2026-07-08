@@ -39,7 +39,10 @@ function LocationText({ location, zoomLink }: { location: string; zoomLink?: str
   if (zoomIdx !== -1) {
     if (zoomIdx > 0) parts.push(remaining.slice(0, zoomIdx));
     const zoomText = remaining.slice(zoomIdx, zoomIdx + 4);
-    parts.push(zoomText);
+    parts.push(zoomLink
+      ? <a key="zoom" href={zoomLink} target="_blank" rel="noopener noreferrer" className="hover:underline">{zoomText}</a>
+      : zoomText
+    );
     remaining = remaining.slice(zoomIdx + 4);
   }
 
