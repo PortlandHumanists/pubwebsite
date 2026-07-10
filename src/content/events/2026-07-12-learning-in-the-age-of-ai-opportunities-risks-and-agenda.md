@@ -1,5 +1,5 @@
 ---
-title: 'Learning in the Age of AI: Opportunities, Risks, and Agenda'
+title: 'Learning in the Age of AI: Opportunities, Risks, and Agenda for Action'
 date: 2026-07-12T17:00:11.937Z
 presenter: Mary Burns
 startTime: 2026-07-12T17:00:11.937Z
