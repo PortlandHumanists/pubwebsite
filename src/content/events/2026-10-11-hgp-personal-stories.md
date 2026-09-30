@@ -2,7 +2,7 @@
 title: HGP Personal Stories
 date: 2026-10-11T17:00:02.711Z
 presenter: ' Jeff Strang, Barbara Hilyer, and Paul Barkett'
-presenterTitle: HGP members
+presenterTitle: HGP Members
 startTime: 2026-10-11T17:00:02.711Z
 endTime: 2026-10-11T18:30:26.833Z
 location: Friendly House & Zoom
