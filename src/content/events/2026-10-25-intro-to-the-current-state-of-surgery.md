@@ -1,8 +1,8 @@
 ---
 title: Intro to the Current State of Surgery
-date: 2026-10-25T17:30:55.474Z
+date: 2026-10-25T17:00:55.474Z
 presenter: Dr. Benjamin Feeney
-startTime: 2026-10-25T17:30:55.474Z
+startTime: 2026-10-25T17:00:55.474Z
 endTime: 2026-10-25T18:30:07.924Z
 location: Friendly House & Zoom
 zoomLink: 'https://us02web.zoom.us/j/87544488937?pwd=vn6H0dhEh1mQqq8zwoMCuuGUaFUK9K.1'
